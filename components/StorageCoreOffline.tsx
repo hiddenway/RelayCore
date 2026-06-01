@@ -91,8 +91,8 @@ export function StorageCoreOffline() {
 
           <div className="space-y-3">
             {[
-              { label: "UPSTASH_REDIS_REST_URL", status: "MISSING", color: "#ef4444" },
-              { label: "UPSTASH_REDIS_REST_TOKEN", status: "MISSING", color: "#ef4444" },
+              { label: "UPSTASH_REDIS_REST_URL  or  KV_REST_API_URL", status: "MISSING", color: "#ef4444" },
+              { label: "UPSTASH_REDIS_REST_TOKEN  or  KV_REST_API_TOKEN", status: "MISSING", color: "#ef4444" },
               { label: "APP_SECRET", status: "REQUIRED", color: "#f59e0b" },
               { label: "SETUP_TOKEN", status: "REQUIRED", color: "#f59e0b" },
             ].map((item) => (
@@ -128,8 +128,10 @@ export function StorageCoreOffline() {
 
           <div className="space-y-4 text-sm" style={{ color: "#94a3b8" }}>
             <Step n={1} title="Connect Redis Storage">
-              Go to your Vercel project → Storage tab → Connect Store → Select{" "}
+              Go to your Vercel project → <span style={{ color: "#e2e8f0" }}>Storage</span> tab → Connect Store → select{" "}
+              <span style={{ color: "#38bdf8" }}>KV</span> or{" "}
               <span style={{ color: "#38bdf8" }}>Upstash Redis</span> from Marketplace.
+              Both are supported.
             </Step>
             <Step n={2} title="Set Environment Variables">
               Add these variables to your Vercel project settings:

@@ -3,8 +3,8 @@
 import { HudCard } from "./hud/HudCard";
 
 const ENV_VARS = [
-  { key: "UPSTASH_REDIS_REST_URL", desc: "Upstash Redis REST URL", from: "Vercel Storage" },
-  { key: "UPSTASH_REDIS_REST_TOKEN", desc: "Upstash Redis REST token", from: "Vercel Storage" },
+  { key: "KV_REST_API_URL", desc: "Vercel KV REST URL (or UPSTASH_REDIS_REST_URL)", from: "Vercel KV" },
+  { key: "KV_REST_API_TOKEN", desc: "Vercel KV REST token (or UPSTASH_REDIS_REST_TOKEN)", from: "Vercel KV" },
   { key: "APP_SECRET", desc: "Encryption & session secret (32+ chars)", from: "Manual" },
   { key: "SETUP_TOKEN", desc: "One-time setup access token", from: "Manual" },
 ];

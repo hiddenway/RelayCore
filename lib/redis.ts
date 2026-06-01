@@ -3,21 +3,26 @@ import type { AdminAccount, TelegramBot, Route, EventLog, Stats } from "@/types"
 
 let redis: Redis | null = null;
 
+function getRedisUrl(): string | undefined {
+  return process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+}
+
+function getRedisToken(): string | undefined {
+  return process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
+}
+
 export function getRedis(): Redis {
   if (!redis) {
-    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
-      throw new Error("Redis not configured");
-    }
-    redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
-    });
+    const url = getRedisUrl();
+    const token = getRedisToken();
+    if (!url || !token) throw new Error("Redis not configured");
+    redis = new Redis({ url, token });
   }
   return redis;
 }
 
 export function isRedisConfigured(): boolean {
-  return !!(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  return !!(getRedisUrl() && getRedisToken());
 }
 
 // Setup
