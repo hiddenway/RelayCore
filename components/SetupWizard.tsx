@@ -167,9 +167,24 @@ export function SetupWizard() {
                 desc="Enter the SETUP_TOKEN value you set in your Vercel environment variables. This is a one-time password to protect the setup process."
               >
                 <Field label="SETUP PASSWORD" type="password" value={data.setupToken ?? ""} onChange={(v) => update("setupToken", v)} placeholder="Enter your setup password" />
-                <Btn loading={loading} onClick={() => {
+                <Btn loading={loading} onClick={async () => {
                   if (!data.setupToken) { setError("Setup password is required"); return; }
-                  nextStep();
+                  setLoading(true);
+                  setError("");
+                  try {
+                    const res = await fetch("/api/setup/verify-token", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ token: data.setupToken }),
+                    });
+                    const json = await res.json();
+                    if (!res.ok) { setError(json.error ?? "Invalid setup password"); return; }
+                    nextStep();
+                  } catch {
+                    setError("Network error");
+                  } finally {
+                    setLoading(false);
+                  }
                 }}>CONTINUE →</Btn>
               </StepSection>
             )}
