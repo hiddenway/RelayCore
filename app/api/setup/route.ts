@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { isSetupCompleted, markSetupCompleted, saveAdmin, saveBot, saveRoute } from "@/lib/redis";
-import { hashPassword, encryptToken, generateApiKey, hashApiKey, generateId } from "@/lib/crypto";
+import { hashPassword, encryptToken, generateApiKey, encryptApiKey, generateId } from "@/lib/crypto";
 import { validateBotToken } from "@/lib/telegram";
 import { createSession, setSessionCookie } from "@/lib/auth";
 import { slugify } from "@/lib/utils";
@@ -56,11 +56,11 @@ export async function POST(request: NextRequest) {
 
   const slug = slugify(body.routeName);
   const apiKey = generateApiKey();
-  const apiKeyHash = await hashApiKey(apiKey);
+  const apiKeyEncrypted = encryptApiKey(apiKey);
   const route = {
     slug,
     name: body.routeName,
-    apiKeyHash,
+    apiKeyEncrypted,
     targets: [{ botId, chatId: body.botChatId, threadId: body.botThreadId || undefined, chatName: "Default Chat" }],
     enabled: true,
     createdAt: new Date().toISOString(),

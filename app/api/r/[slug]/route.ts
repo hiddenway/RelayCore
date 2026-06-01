@@ -47,7 +47,7 @@ export async function POST(
   const apiKey = request.headers.get("x-api-key");
   if (!apiKey) return NextResponse.json({ error: "Missing x-api-key header" }, { status: 401 });
 
-  const valid = await verifyApiKey(apiKey, route.apiKeyHash);
+  const valid = verifyApiKey(apiKey, route.apiKeyEncrypted);
   if (!valid) return NextResponse.json({ error: "Invalid API key" }, { status: 401 });
 
   let body: z.infer<typeof bodySchema>;

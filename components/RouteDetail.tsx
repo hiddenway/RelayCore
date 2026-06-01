@@ -14,6 +14,9 @@ export function RouteDetail({ slug }: { slug: string }) {
   const [events, setEvents] = useState<EventLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [newApiKey, setNewApiKey] = useState<string | null>(null);
+  const [revealedKey, setRevealedKey] = useState<string | null>(null);
+  const [revealing, setRevealing] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [regenerating, setRegenerating] = useState(false);
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<{ ok: boolean; message: string } | null>(null);
@@ -36,9 +39,26 @@ export function RouteDetail({ slug }: { slug: string }) {
 
   useEffect(() => { load(); }, [load]);
 
+  async function revealKey() {
+    setRevealing(true);
+    const res = await fetch(`/api/routes/${slug}/reveal-key`);
+    if (res.ok) {
+      const data = await res.json();
+      setRevealedKey(data.apiKey);
+    }
+    setRevealing(false);
+  }
+
+  function copyKey(key: string) {
+    navigator.clipboard.writeText(key);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   async function regenerateKey() {
     if (!confirm("Regenerate API key? The current key will stop working immediately.")) return;
     setRegenerating(true);
+    setRevealedKey(null);
     const res = await fetch(`/api/routes/${slug}/regenerate-key`, { method: "POST" });
     if (res.ok) {
       const data = await res.json();
@@ -164,45 +184,49 @@ export function RouteDetail({ slug }: { slug: string }) {
 
       {/* API Key panel */}
       <HudCard corners label="API CREDENTIALS">
-        {newApiKey ? (
-          <div>
+        {/* Show newly regenerated key */}
+        {newApiKey && (
+          <div className="mb-4">
             <div className="text-xs mb-2" style={{ color: "rgba(245,158,11,0.8)" }}>
-              ⚠ Save this key now — it won&apos;t be shown again
+              ⚠ New key generated — copy it now
             </div>
-            <div className="flex items-center gap-2">
-              <code
-                className="flex-1 text-sm px-3 py-2 rounded break-all"
-                style={{ background: "rgba(245,158,11,0.05)", border: "1px solid rgba(245,158,11,0.2)", color: "#fcd34d" }}
-              >
-                {newApiKey}
-              </code>
-              <button
-                onClick={() => { navigator.clipboard.writeText(newApiKey); }}
-                className="hud-btn px-3 py-2 text-xs rounded"
-              >
-                COPY
-              </button>
-            </div>
+            <KeyRow value={newApiKey} onCopy={copyKey} copied={copied} highlight />
           </div>
-        ) : (
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs mb-1" style={{ color: "rgba(148,163,184,0.6)" }}>
-                API key is stored as hash and cannot be shown.
-              </div>
-              <div className="text-xs font-mono" style={{ color: "rgba(14,165,233,0.5)" }}>
-                x-api-key: rck_••••••••••••••••••••
-              </div>
+        )}
+
+        {/* Revealed existing key */}
+        {!newApiKey && revealedKey && (
+          <div className="mb-4">
+            <KeyRow value={revealedKey} onCopy={copyKey} copied={copied} />
+          </div>
+        )}
+
+        {/* Hidden state */}
+        {!newApiKey && !revealedKey && (
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-xs font-mono" style={{ color: "rgba(14,165,233,0.4)" }}>
+              x-api-key: rck_••••••••••••••••••••••••••••••••••••••••••••••••
             </div>
             <button
-              onClick={regenerateKey}
-              disabled={regenerating}
-              className="hud-btn hud-btn-danger px-3 py-1.5 text-xs rounded"
+              onClick={revealKey}
+              disabled={revealing}
+              className="hud-btn px-3 py-1.5 text-xs rounded flex-shrink-0 ml-3"
+              style={{ color: "#38bdf8" }}
             >
-              {regenerating ? "..." : "REGENERATE KEY"}
+              {revealing ? "..." : "👁 REVEAL"}
             </button>
           </div>
         )}
+
+        <div className="flex justify-end">
+          <button
+            onClick={regenerateKey}
+            disabled={regenerating}
+            className="hud-btn hud-btn-danger px-3 py-1.5 text-xs rounded"
+          >
+            {regenerating ? "..." : "↺ REGENERATE KEY"}
+          </button>
+        </div>
       </HudCard>
 
       {/* Targets */}
@@ -335,6 +359,26 @@ function Section({ label, children }: { label: string; children: React.ReactNode
     <div>
       <div className="text-[10px] font-bold tracking-widest uppercase mb-2" style={{ color: "rgba(14,165,233,0.6)" }}>{label}</div>
       {children}
+    </div>
+  );
+}
+
+function KeyRow({ value, onCopy, copied, highlight }: { value: string; onCopy: (v: string) => void; copied: boolean; highlight?: boolean }) {
+  return (
+    <div className="flex items-center gap-2">
+      <code
+        className="flex-1 text-sm px-3 py-2 rounded break-all"
+        style={{
+          background: highlight ? "rgba(245,158,11,0.05)" : "rgba(14,165,233,0.05)",
+          border: `1px solid ${highlight ? "rgba(245,158,11,0.25)" : "rgba(14,165,233,0.2)"}`,
+          color: highlight ? "#fcd34d" : "#38bdf8",
+        }}
+      >
+        {value}
+      </code>
+      <button onClick={() => onCopy(value)} className="hud-btn px-3 py-2 text-xs rounded flex-shrink-0">
+        {copied ? "✓ COPIED" : "COPY"}
+      </button>
     </div>
   );
 }

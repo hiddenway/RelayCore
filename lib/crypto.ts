@@ -37,12 +37,22 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
   return bcrypt.compare(password, hash);
 }
 
-export async function hashApiKey(apiKey: string): Promise<string> {
-  return bcrypt.hash(apiKey, 10);
+// API keys are stored encrypted (not hashed) so they can be revealed in the dashboard.
+// encryptToken / decryptToken handle the same AES-256-GCM scheme.
+export function encryptApiKey(apiKey: string): string {
+  return encryptToken(apiKey);
 }
 
-export async function verifyApiKey(apiKey: string, hash: string): Promise<boolean> {
-  return bcrypt.compare(apiKey, hash);
+export function decryptApiKey(encrypted: string): string {
+  return decryptToken(encrypted);
+}
+
+export function verifyApiKey(apiKey: string, encrypted: string): boolean {
+  try {
+    return decryptToken(encrypted) === apiKey;
+  } catch {
+    return false;
+  }
 }
 
 export function generateApiKey(): string {

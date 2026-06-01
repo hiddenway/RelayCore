@@ -24,7 +24,7 @@ export interface Route {
   slug: string;
   name: string;
   description?: string;
-  apiKeyHash: string;
+  apiKeyEncrypted: string;
   targets: RouteTarget[];
   enabled: boolean;
   createdAt: string;

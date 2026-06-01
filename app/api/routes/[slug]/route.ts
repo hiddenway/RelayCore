@@ -28,7 +28,7 @@ export async function GET(
   const route = await getRoute(slug);
   if (!route) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  const { apiKeyHash: _, ...safe } = route;
+  const { apiKeyEncrypted: _, ...safe } = route;
   return NextResponse.json({ route: safe });
 }
 
@@ -53,7 +53,7 @@ export async function PATCH(
   const updated = { ...route, ...body, updatedAt: new Date().toISOString() };
   await saveRoute(updated);
 
-  const { apiKeyHash: _, ...safe } = updated;
+  const { apiKeyEncrypted: _, ...safe } = updated;
   return NextResponse.json({ route: safe });
 }
 

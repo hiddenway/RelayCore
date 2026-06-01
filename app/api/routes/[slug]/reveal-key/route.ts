@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
-import { getRoute, saveRoute } from "@/lib/redis";
-import { generateApiKey, encryptApiKey } from "@/lib/crypto";
+import { getRoute } from "@/lib/redis";
+import { decryptApiKey } from "@/lib/crypto";
 
-export async function POST(
+export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
@@ -14,10 +14,10 @@ export async function POST(
   const route = await getRoute(slug);
   if (!route) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  const apiKey = generateApiKey();
-  const apiKeyEncrypted = encryptApiKey(apiKey);
-
-  await saveRoute({ ...route, apiKeyEncrypted, updatedAt: new Date().toISOString() });
-
-  return NextResponse.json({ apiKey });
+  try {
+    const apiKey = decryptApiKey(route.apiKeyEncrypted);
+    return NextResponse.json({ apiKey });
+  } catch {
+    return NextResponse.json({ error: "Could not decrypt key" }, { status: 500 });
+  }
 }

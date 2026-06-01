@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getSession } from "@/lib/auth";
 import { getAllRoutes, saveRoute, getRoute } from "@/lib/redis";
-import { generateApiKey, hashApiKey } from "@/lib/crypto";
+import { generateApiKey, encryptApiKey } from "@/lib/crypto";
 import { slugify } from "@/lib/utils";
 
 const targetSchema = z.object({
@@ -23,7 +23,7 @@ export async function GET() {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const routes = await getAllRoutes();
-  const safe = routes.map(({ apiKeyHash: _, ...r }) => r);
+  const safe = routes.map(({ apiKeyEncrypted: _, ...r }) => r);
   return NextResponse.json({ routes: safe });
 }
 
@@ -43,13 +43,13 @@ export async function POST(request: NextRequest) {
   if (existing) return NextResponse.json({ error: "Route with this slug already exists" }, { status: 409 });
 
   const apiKey = generateApiKey();
-  const apiKeyHash = await hashApiKey(apiKey);
+  const apiKeyEncrypted = encryptApiKey(apiKey);
 
   const route = {
     slug,
     name: body.name,
     description: body.description,
-    apiKeyHash,
+    apiKeyEncrypted,
     targets: body.targets,
     enabled: true,
     createdAt: new Date().toISOString(),
@@ -57,6 +57,6 @@ export async function POST(request: NextRequest) {
   };
   await saveRoute(route);
 
-  const { apiKeyHash: _, ...safe } = route;
+  const { apiKeyEncrypted: _, ...safe } = route;
   return NextResponse.json({ route: safe, apiKey }, { status: 201 });
 }
