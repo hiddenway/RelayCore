@@ -50,7 +50,7 @@ Your App  →  POST /api/r/my-route  →  RelayCore  →  Telegram Bot  →  You
 
 ### Step 1 — Fork & Deploy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/relay-core)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hiddenway/relay-core)
 
 Or manually:
 1. Fork this repository
@@ -331,7 +331,7 @@ API keys are **never exposed** in list API responses — only accessible via the
 
 ```bash
 # Clone
-git clone https://github.com/your-username/relay-core.git
+git clone https://github.com/hiddenway/relay-core.git
 cd relay-core
 
 # Install dependencies
