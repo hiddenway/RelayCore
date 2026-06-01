@@ -1,36 +1,426 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RelayCore
 
-## Getting Started
+**Personal serverless event relay control panel for Vercel.**
 
-First, run the development server:
+Send events from your apps → receive them as Telegram messages. One API endpoint, multiple bots, multiple chats — all configured through a futuristic web dashboard.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## What is this?
+
+RelayCore is a self-hosted notification relay you deploy to Vercel. Your apps POST HTTP events to it, and it forwards them to Telegram bots/chats you configure.
+
+**Use cases:**
+- Server error alerts → Telegram
+- Deploy notifications → team chat
+- Payment events → finance channel
+- Cron job status → personal bot
+- Any app event → any Telegram destination
+
+```
+Your App  →  POST /api/r/my-route  →  RelayCore  →  Telegram Bot  →  Your Chat
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **One-click Vercel deploy** — no server to manage
+- **Multiple bots** — connect as many Telegram bots as you need
+- **Multiple targets per route** — one event → many chats simultaneously
+- **Forum group support** — send to specific topics in Telegram forum groups
+- **Live event log** — see all events and delivery statuses in real time
+- **API key management** — reveal, regenerate per-route keys
+- **Futuristic HUD dashboard** — dark sci-fi control panel UI
+- **Setup wizard** — guided first-run configuration
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js 16](https://nextjs.org) — App Router, TypeScript, serverless functions
+- [Upstash Redis / Vercel KV](https://upstash.com) — all data storage
+- [Telegram Bot API](https://core.telegram.org/bots/api) — message delivery
+- [Framer Motion](https://www.framer.com/motion/) — animations
+- [TailwindCSS v4](https://tailwindcss.com) — styling
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Deploy to Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Step 1 — Fork & Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/relay-core)
+
+Or manually:
+1. Fork this repository
+2. Go to [vercel.com/new](https://vercel.com/new) and import your fork
+
+### Step 2 — Connect Redis Storage
+
+In your Vercel project dashboard:
+
+```
+Storage → Create Database → KV (Upstash Redis)
+```
+
+This automatically adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` to your environment.
+
+> **Alternative:** Connect Upstash Redis directly — it adds `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`. Both are supported.
+
+### Step 3 — Add Environment Variables
+
+In **Settings → Environment Variables**, add:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `APP_SECRET` | Encryption key for tokens and sessions. Generate with `openssl rand -hex 32` | `a3f8...` |
+| `SETUP_TOKEN` | One-time password to access the setup wizard | `mysecretsetup` |
+
+### Step 4 — Redeploy
+
+After adding variables, trigger a redeployment:
+```
+Deployments → ⋯ → Redeploy
+```
+
+### Step 5 — Complete Setup Wizard
+
+Open your app URL — you'll be guided through:
+1. Enter your `SETUP_TOKEN`
+2. Create admin username/password
+3. Connect your first Telegram bot
+4. Create your first route
+5. Send a test event
+6. Enter the dashboard
+
+---
+
+## Environment Variables Reference
+
+| Variable | Required | Source | Description |
+|----------|----------|--------|-------------|
+| `KV_REST_API_URL` | ✅ | Vercel KV | Redis REST URL |
+| `KV_REST_API_TOKEN` | ✅ | Vercel KV | Redis REST token |
+| `UPSTASH_REDIS_REST_URL` | ✅* | Upstash | Alternative to KV vars |
+| `UPSTASH_REDIS_REST_TOKEN` | ✅* | Upstash | Alternative to KV vars |
+| `APP_SECRET` | ✅ | Manual | 32+ char random string |
+| `SETUP_TOKEN` | ✅ | Manual | Setup wizard password |
+
+\*Either KV or Upstash vars required, not both.
+
+Generate `APP_SECRET`:
+```bash
+openssl rand -hex 32
+```
+
+---
+
+## API Reference
+
+### Send Event
+
+```
+POST /api/r/{slug}
+```
+
+**Headers:**
+```
+x-api-key: rck_your_api_key
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "title": "Deploy successful",
+  "message": "Version 2.1.0 deployed to production",
+  "level": "success",
+  "payload": {
+    "version": "2.1.0",
+    "environment": "production"
+  }
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `title` | string | No | Message title |
+| `message` | string | No | Message body |
+| `level` | string | No | `info` \| `success` \| `warning` \| `error` |
+| `payload` | object | No | Any JSON object, shown as formatted code block |
+
+**Response:**
+```json
+{
+  "id": "uuid",
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "delivered": 2,
+  "failed": 0,
+  "deliveries": [
+    {
+      "botId": "abc123",
+      "chatId": "-1001234567890",
+      "success": true,
+      "messageId": 42
+    }
+  ]
+}
+```
+
+**Status codes:**
+
+| Code | Meaning |
+|------|---------|
+| `200` | Event delivered |
+| `400` | Invalid request body |
+| `401` | Missing or invalid `x-api-key` |
+| `403` | Route is disabled |
+| `404` | Route not found |
+| `429` | Rate limit exceeded (60 req/min per route) |
+
+---
+
+## Usage Examples
+
+### cURL
+
+```bash
+curl -X POST \
+  -H "x-api-key: rck_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Payment received",
+    "level": "success",
+    "payload": { "amount": 99.99, "currency": "USD" }
+  }' \
+  https://your-app.vercel.app/api/r/payments
+```
+
+### JavaScript / TypeScript
+
+```ts
+await fetch("https://your-app.vercel.app/api/r/payments", {
+  method: "POST",
+  headers: {
+    "x-api-key": process.env.RELAY_API_KEY!,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    title: "New order",
+    level: "info",
+    message: "Order #1234 placed by user@example.com",
+    payload: { orderId: 1234, total: 49.99 },
+  }),
+});
+```
+
+### Python
+
+```python
+import requests
+
+requests.post(
+    "https://your-app.vercel.app/api/r/payments",
+    headers={
+        "x-api-key": "rck_your_api_key",
+        "Content-Type": "application/json",
+    },
+    json={
+        "title": "Server error",
+        "level": "error",
+        "message": "Unhandled exception in worker",
+        "payload": {"exception": "NullPointerException", "line": 42},
+    },
+)
+```
+
+### Go
+
+```go
+body := `{"title":"Deploy done","level":"success"}`
+req, _ := http.NewRequest("POST", "https://your-app.vercel.app/api/r/deploys", strings.NewReader(body))
+req.Header.Set("x-api-key", "rck_your_api_key")
+req.Header.Set("Content-Type", "application/json")
+http.DefaultClient.Do(req)
+```
+
+---
+
+## Telegram Setup
+
+### Create a Bot
+
+1. Open Telegram → search **@BotFather**
+2. Send `/newbot` and follow prompts
+3. Copy the HTTP API token (format: `123456789:ABCdef...`)
+4. Add the bot to your chat/channel and make it an admin
+
+### Get Chat ID
+
+**Personal chat or group:**
+1. Add **@userinfobot** to the chat
+2. Send any message — it replies with the chat ID
+
+**Channel:**
+- Format: `-100XXXXXXXXXX`
+- Forward a message from the channel to @userinfobot
+
+### Forum Groups (Topics)
+
+Telegram forum groups have topics, each with a Thread ID.
+
+From the topic URL `https://t.me/c/3990810017/2`:
+- **Chat ID:** `-1003990810017` (add `-100` prefix to the number)
+- **Thread ID:** `2` (the last number in the URL)
+
+When creating a route target, fill in both Chat ID and Thread ID to send messages to that specific topic.
+
+---
+
+## Dashboard Pages
+
+| Page | Description |
+|------|-------------|
+| `/dashboard` | Core status, stats, live event stream |
+| `/routes` | All routes — enable/disable/delete |
+| `/routes/new` | Create route with multiple targets |
+| `/routes/[slug]` | Route details, API key, endpoint docs, recent logs |
+| `/bots` | Manage connected Telegram bots |
+| `/bots/new` | Add new bot |
+| `/logs` | Full event log with filters and payload viewer |
+| `/settings` | Environment reference, Redis data model docs |
+
+---
+
+## Security Model
+
+| What | How |
+|------|-----|
+| Telegram bot tokens | AES-256-GCM encrypted with `APP_SECRET` |
+| Admin password | bcrypt, cost factor 12 |
+| Route API keys | AES-256-GCM encrypted — revealable in dashboard |
+| Panel sessions | HS256 JWT in `httpOnly` secure cookie, 7-day expiry |
+| Dashboard routes | Protected by Next.js proxy middleware |
+| Setup endpoint | Permanently disabled after first completion |
+| Rate limiting | 60 req/min per route (in-memory, resets on cold start) |
+
+API keys are **never exposed** in list API responses — only accessible via the explicit Reveal button on the route detail page.
+
+---
+
+## Redis Data Model
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `app:setup_completed` | boolean | Setup done flag |
+| `app:admin` | JSON | Admin username + password hash |
+| `bots:index` | JSON array | List of bot IDs |
+| `bot:{id}` | JSON | Bot name, encrypted token, enabled state |
+| `routes:index` | JSON array | List of route slugs |
+| `route:{slug}` | JSON | Route config, targets, encrypted API key |
+| `events:recent` | List | Last 100 global events |
+| `events:route:{slug}` | List | Last 50 events per route |
+| `stats:total` | Hash | All-time `total` / `success` / `failed` |
+| `stats:today:{YYYY-MM-DD}` | Hash | Daily stats (7-day TTL) |
+| `stats:route:{slug}` | Hash | Per-route stats |
+
+---
+
+## Local Development
+
+```bash
+# Clone
+git clone https://github.com/your-username/relay-core.git
+cd relay-core
+
+# Install dependencies
+npm install
+
+# Copy and fill environment variables
+cp .env.example .env.local
+```
+
+Edit `.env.local`:
+```env
+KV_REST_API_URL=https://your-kv.kv.vercel-storage.com
+KV_REST_API_TOKEN=your-token
+APP_SECRET=your-random-32-char-secret
+SETUP_TOKEN=your-setup-password
+```
+
+```bash
+# Start dev server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+Get free Redis at [upstash.com](https://upstash.com) for local development.
+
+---
+
+## Project Structure
+
+```
+relay-core/
+├── app/
+│   ├── api/
+│   │   ├── r/[slug]/              # Main relay endpoint (POST)
+│   │   ├── auth/login/            # Login
+│   │   ├── auth/logout/           # Logout
+│   │   ├── setup/                 # Setup wizard + token verify
+│   │   ├── bots/                  # Bot list + create
+│   │   ├── bots/[botId]/          # Bot update + delete
+│   │   ├── routes/                # Route list + create
+│   │   ├── routes/[slug]/         # Route get + update + delete
+│   │   ├── routes/[slug]/reveal-key/     # Decrypt and return API key
+│   │   ├── routes/[slug]/regenerate-key/ # Generate new API key
+│   │   ├── logs/                  # Event log query
+│   │   ├── stats/                 # Dashboard stats
+│   │   └── test-event/            # Send test event from dashboard
+│   ├── dashboard/                 # Dashboard home page
+│   ├── routes/                    # Routes pages
+│   ├── bots/                      # Bots pages
+│   ├── logs/                      # Logs page
+│   ├── settings/                  # Settings page
+│   ├── setup/                     # Setup wizard page
+│   ├── login/                     # Login page
+│   ├── layout.tsx                 # Root layout
+│   └── page.tsx                   # Root — checks Redis, redirects
+├── components/
+│   ├── hud/
+│   │   ├── GridBackground.tsx     # Animated grid backdrop
+│   │   ├── HolographicRings.tsx   # Spinning orbital rings
+│   │   ├── HudCard.tsx            # Glass card with HUD corners
+│   │   └── StatusBadge.tsx        # Animated status dot
+│   ├── DashboardLayout.tsx        # Sidebar navigation + layout
+│   ├── DashboardHome.tsx          # Core status + live stream
+│   ├── RoutesPanel.tsx            # Route list
+│   ├── RouteDetail.tsx            # Route detail + docs
+│   ├── NewRouteForm.tsx           # Route creation form
+│   ├── BotsPanel.tsx              # Bot list
+│   ├── NewBotForm.tsx             # Bot creation form
+│   ├── LogsPanel.tsx              # Event log viewer
+│   ├── SettingsPanel.tsx          # Settings reference
+│   ├── SetupWizard.tsx            # Multi-step setup
+│   ├── LoginForm.tsx              # Login form
+│   └── StorageCoreOffline.tsx     # No-Redis screen
+├── lib/
+│   ├── redis.ts                   # All Redis read/write operations
+│   ├── crypto.ts                  # AES encryption, bcrypt, key generation
+│   ├── auth.ts                    # JWT sessions, cookies
+│   ├── telegram.ts                # Telegram API client + formatter
+│   └── utils.ts                   # cn(), slugify(), timeAgo()...
+├── types/
+│   └── index.ts                   # TypeScript interfaces
+├── proxy.ts                       # Auth middleware (Next.js 16)
+├── vercel.json                    # Vercel deploy config
+└── .env.example                   # Environment variables template
+```
+
+---
+
+## License
+
+MIT
