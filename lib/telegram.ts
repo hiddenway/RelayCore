@@ -41,20 +41,23 @@ function escapeHtml(str: string): string {
 export async function sendTelegramMessage(
   bot: TelegramBot,
   chatId: string,
-  text: string
+  text: string,
+  threadId?: string
 ): Promise<DeliveryResult> {
   const result: DeliveryResult = { botId: bot.id, chatId, success: false };
   try {
     const token = decryptToken(bot.tokenEncrypted);
+    const body: Record<string, unknown> = {
+      chat_id: chatId,
+      text,
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    };
+    if (threadId) body.message_thread_id = parseInt(threadId, 10);
     const response = await fetch(`${TELEGRAM_API}/bot${token}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text,
-        parse_mode: "HTML",
-        disable_web_page_preview: true,
-      }),
+      body: JSON.stringify(body),
     });
     const data = await response.json() as { ok: boolean; result?: { message_id: number }; description?: string };
     if (data.ok) {

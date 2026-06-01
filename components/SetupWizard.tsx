@@ -15,6 +15,7 @@ interface SetupData {
   botToken: string;
   botName: string;
   botChatId: string;
+  botThreadId: string;
   routeName: string;
 }
 
@@ -205,9 +206,10 @@ export function SetupWizard() {
               <StepSection title="Connect Telegram Bot" desc="Create a bot via @BotFather and paste the token here.">
                 <Field label="BOT NAME" value={data.botName ?? ""} onChange={(v) => update("botName", v)} placeholder="My Alert Bot" />
                 <Field label="BOT TOKEN" type="password" value={data.botToken ?? ""} onChange={(v) => update("botToken", v)} placeholder="123456:ABCdef..." />
-                <Field label="CHAT ID" value={data.botChatId ?? ""} onChange={(v) => update("botChatId", v)} placeholder="Your chat/channel ID" />
+                <Field label="CHAT ID" value={data.botChatId ?? ""} onChange={(v) => update("botChatId", v)} placeholder="-1001234567890" />
+                <Field label="TOPIC / THREAD ID (optional, for forum groups)" value={data.botThreadId ?? ""} onChange={(v) => update("botThreadId", v)} placeholder="2" />
                 <p className="text-xs mt-1" style={{ color: "rgba(148,163,184,0.6)" }}>
-                  Send /start to your bot, then get chat ID from @userinfobot or @RawDataBot
+                  Regular chat: just Chat ID. Forum group: Chat ID + Topic ID from t.me/c/GROUP/<strong>TOPIC</strong>
                 </p>
                 <Btn loading={loading} onClick={() => {
                   if (!data.botName || !data.botToken || !data.botChatId) { setError("All bot fields are required"); return; }

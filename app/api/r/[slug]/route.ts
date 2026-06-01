@@ -78,7 +78,7 @@ export async function POST(
       deliveries.push({ botId: target.botId, chatId: target.chatId, success: false, error: "Bot not found or disabled" });
       continue;
     }
-    const result = await sendTelegramMessage(bot, target.chatId, text);
+    const result = await sendTelegramMessage(bot, target.chatId, text, target.threadId);
     deliveries.push(result);
   }
 

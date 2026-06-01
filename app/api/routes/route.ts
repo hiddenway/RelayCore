@@ -8,6 +8,7 @@ import { slugify } from "@/lib/utils";
 const targetSchema = z.object({
   botId: z.string().min(1),
   chatId: z.string().min(1),
+  threadId: z.string().optional(),
   chatName: z.string().optional(),
 });
 

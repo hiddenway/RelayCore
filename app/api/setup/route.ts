@@ -13,6 +13,7 @@ const setupSchema = z.object({
   botToken: z.string().min(1),
   botName: z.string().min(1).max(64),
   botChatId: z.string().min(1),
+  botThreadId: z.string().optional(),
   routeName: z.string().min(1).max(64),
 });
 
@@ -60,7 +61,7 @@ export async function POST(request: NextRequest) {
     slug,
     name: body.routeName,
     apiKeyHash,
-    targets: [{ botId, chatId: body.botChatId, chatName: "Default Chat" }],
+    targets: [{ botId, chatId: body.botChatId, threadId: body.botThreadId || undefined, chatName: "Default Chat" }],
     enabled: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),

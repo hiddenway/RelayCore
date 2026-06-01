@@ -10,6 +10,7 @@ import type { TelegramBot } from "@/types";
 interface Target {
   botId: string;
   chatId: string;
+  threadId: string;
   chatName: string;
 }
 
@@ -17,7 +18,7 @@ export function NewRouteForm() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [targets, setTargets] = useState<Target[]>([{ botId: "", chatId: "", chatName: "" }]);
+  const [targets, setTargets] = useState<Target[]>([{ botId: "", chatId: "", threadId: "", chatName: "" }]);
   const [bots, setBots] = useState<Omit<TelegramBot, "tokenEncrypted">[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ export function NewRouteForm() {
   }, []);
 
   function addTarget() {
-    setTargets([...targets, { botId: "", chatId: "", chatName: "" }]);
+    setTargets([...targets, { botId: "", chatId: "", threadId: "", chatName: "" }]);
   }
 
   function removeTarget(i: number) {
@@ -147,6 +148,10 @@ export function NewRouteForm() {
                 </select>
               </div>
               <Field label="CHAT ID" value={t.chatId} onChange={(v) => updateTarget(i, "chatId", v)} placeholder="-1001234567890" />
+              <Field label="TOPIC / THREAD ID (optional, for forum groups)" value={t.threadId} onChange={(v) => updateTarget(i, "threadId", v)} placeholder="2" />
+              <p className="text-xs -mt-1" style={{ color: "rgba(148,163,184,0.5)" }}>
+                From t.me/c/GROUP_ID/<strong>THREAD_ID</strong> — leave empty for regular chats
+              </p>
               <Field label="CHAT NAME (optional)" value={t.chatName} onChange={(v) => updateTarget(i, "chatName", v)} placeholder="Production Alerts" />
             </motion.div>
           ))}

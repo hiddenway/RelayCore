@@ -16,6 +16,7 @@ export interface TelegramBot {
 export interface RouteTarget {
   botId: string;
   chatId: string;
+  threadId?: string;
   chatName?: string;
 }
 
