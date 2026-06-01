@@ -4,7 +4,7 @@ import { verifySession } from "@/lib/auth";
 
 const PROTECTED = ["/dashboard", "/routes", "/bots", "/logs", "/settings"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isProtected = PROTECTED.some((p) => pathname.startsWith(p));
