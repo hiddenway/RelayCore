@@ -25,7 +25,7 @@ interface SetupResult {
 
 const STEPS: Step[] = ["token", "admin", "bot", "route", "test", "done"];
 const STEP_LABELS: Record<Step, string> = {
-  token: "SETUP TOKEN",
+  token: "SETUP PASSWORD",
   admin: "ADMIN ACCOUNT",
   bot: "TELEGRAM BOT",
   route: "FIRST ROUTE",
@@ -163,12 +163,12 @@ export function SetupWizard() {
           >
             {step === "token" && (
               <StepSection
-                title="Enter Setup Token"
-                desc="Enter the SETUP_TOKEN you configured in your Vercel environment variables."
+                title="Enter Setup Password"
+                desc="Enter the SETUP_TOKEN value you set in your Vercel environment variables. This is a one-time password to protect the setup process."
               >
-                <Field label="SETUP TOKEN" type="password" value={data.setupToken ?? ""} onChange={(v) => update("setupToken", v)} placeholder="Enter your setup token" />
+                <Field label="SETUP PASSWORD" type="password" value={data.setupToken ?? ""} onChange={(v) => update("setupToken", v)} placeholder="Enter your setup password" />
                 <Btn loading={loading} onClick={() => {
-                  if (!data.setupToken) { setError("Setup token is required"); return; }
+                  if (!data.setupToken) { setError("Setup password is required"); return; }
                   nextStep();
                 }}>CONTINUE →</Btn>
               </StepSection>
