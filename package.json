@@ -1,5 +1,5 @@
 {
-  "name": "relay-core-tmp",
+  "name": "relay-core",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,16 +8,26 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "16.2.6",
+    "@upstash/redis": "^1.38.0",
+    "bcryptjs": "^3.0.3",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.40.0",
+    "jose": "^6.2.3",
+    "next": "^16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "tailwind-merge": "^3.6.0",
+    "uuid": "^14.0.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/uuid": "^10.0.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }
