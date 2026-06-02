@@ -23,9 +23,13 @@ export function formatMessage(routeName: string, event: RelayEventInput): string
     text += `\n${escapeHtml(event.message)}\n`;
   }
 
-  if (event.payload && Object.keys(event.payload).length > 0) {
-    const payloadStr = JSON.stringify(event.payload, null, 2);
-    text += `\n<pre>${escapeHtml(payloadStr)}</pre>`;
+  if (event.payload) {
+    const payloadStr = typeof event.payload === "string"
+      ? event.payload
+      : JSON.stringify(event.payload, null, 2);
+    if (payloadStr.trim().length > 0) {
+      text += `\n<pre>${escapeHtml(payloadStr)}</pre>`;
+    }
   }
 
   return text;

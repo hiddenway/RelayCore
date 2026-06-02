@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 const bodySchema = z.object({
   title: z.string().max(256).optional(),
   message: z.string().max(4096).optional(),
-  payload: z.record(z.string(), z.unknown()).optional(),
+  payload: z.union([z.string(), z.record(z.string(), z.unknown())]).optional(),
   level: z.enum(["info", "success", "warning", "error"]).optional().default("info"),
 });
 
@@ -63,7 +63,7 @@ export async function POST(
     routeSlug: slug,
     title: body.title,
     message: body.message,
-    payload: body.payload as Record<string, unknown> | undefined,
+    payload: body.payload as string | Record<string, unknown> | undefined,
     level: body.level,
     deliveries: [],
     timestamp: new Date().toISOString(),

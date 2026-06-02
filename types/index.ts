@@ -36,7 +36,7 @@ export interface EventLog {
   routeSlug: string;
   title?: string;
   message?: string;
-  payload?: Record<string, unknown>;
+  payload?: string | Record<string, unknown>;
   level: "info" | "success" | "warning" | "error";
   deliveries: DeliveryResult[];
   timestamp: string;
@@ -59,7 +59,7 @@ export interface Stats {
 export interface RelayEventInput {
   title?: string;
   message?: string;
-  payload?: Record<string, unknown>;
+  payload?: string | Record<string, unknown>;
   level?: "info" | "success" | "warning" | "error";
 }
 
