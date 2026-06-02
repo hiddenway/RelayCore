@@ -130,27 +130,137 @@ x-api-key: rck_your_api_key
 Content-Type: application/json
 ```
 
-**Body:**
+---
+
+### Event Parameters
+
+All fields are optional. You can send any combination — even an empty body `{}` is valid.
+
+#### `title` — string, max 256 chars
+
+The headline of the message. Shown in **bold** in Telegram.  
+If omitted, the route name is used as the title.
+
+```json
+{ "title": "Payment received" }
+```
+
+---
+
+#### `message` — string, max 4096 chars
+
+The body text of the message. Shown as plain text below the title.  
+Supports multi-line strings.
+
+```json
+{ "message": "User john@example.com completed checkout.\nOrder total: $49.99" }
+```
+
+---
+
+#### `level` — string enum
+
+Controls the emoji prefix and visual indicator of the event.
+
+| Value | Emoji | Use case |
+|-------|-------|----------|
+| `info` | ℹ️ | Default. General information |
+| `success` | ✅ | Operation completed successfully |
+| `warning` | ⚠️ | Something needs attention |
+| `error` | ❌ | Something failed |
+
+```json
+{ "level": "error" }
+```
+
+Defaults to `info` if omitted.
+
+---
+
+#### `payload` — object or string
+
+Additional structured data shown as a formatted code block in Telegram.  
+Accepts either a **JSON object** or a **JSON string** (useful for event streaming tools like Amplitude).
+
+**As object:**
 ```json
 {
-  "title": "Deploy successful",
-  "message": "Version 2.1.0 deployed to production",
-  "level": "success",
   "payload": {
-    "version": "2.1.0",
-    "environment": "production"
+    "user_id": "u_123",
+    "plan": "pro",
+    "amount": 49.99,
+    "currency": "USD"
   }
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `title` | string | No | Message title |
-| `message` | string | No | Message body |
-| `level` | string | No | `info` \| `success` \| `warning` \| `error` |
-| `payload` | object | No | Any JSON object, shown as formatted code block |
+**As string (e.g. from Amplitude streaming constructor):**
+```json
+{
+  "payload": "{\"user_id\":\"u_123\",\"plan\":\"pro\"}"
+}
+```
 
-**Response:**
+Both render identically in Telegram as a `<pre>` code block.
+
+---
+
+### Full Request Example
+
+```json
+{
+  "title": "New subscription",
+  "message": "User upgraded to Pro plan",
+  "level": "success",
+  "payload": {
+    "user_id": "u_456",
+    "plan": "pro",
+    "amount": 99.99,
+    "currency": "USD",
+    "source": "stripe"
+  }
+}
+```
+
+**Resulting Telegram message:**
+```
+✅ [SUCCESS] New subscription
+Route: my-payments
+Time:  2024-06-01 14:32:10 UTC
+
+User upgraded to Pro plan
+
+{
+  "user_id": "u_456",
+  "plan": "pro",
+  "amount": 99.99,
+  "currency": "USD",
+  "source": "stripe"
+}
+```
+
+---
+
+### Minimal Request
+
+You don't need all fields. Even a single field works:
+
+```bash
+# just a title
+curl -X POST -H "x-api-key: rck_..." -H "Content-Type: application/json" \
+  -d '{"title":"Server restarted"}' \
+  https://your-app.vercel.app/api/r/my-route
+
+# just a level (sends route name as title)
+curl -X POST -H "x-api-key: rck_..." -H "Content-Type: application/json" \
+  -d '{"level":"error","message":"Database connection timeout"}' \
+  https://your-app.vercel.app/api/r/my-route
+```
+
+---
+
+### Response
+
 ```json
 {
   "id": "uuid",
@@ -168,7 +278,20 @@ Content-Type: application/json
 }
 ```
 
-**Status codes:**
+| Field | Description |
+|-------|-------------|
+| `id` | Unique event ID |
+| `timestamp` | ISO 8601 delivery time |
+| `delivered` | Number of targets that received the message |
+| `failed` | Number of targets that failed |
+| `deliveries` | Per-target delivery result array |
+| `deliveries[].success` | Whether delivery succeeded |
+| `deliveries[].messageId` | Telegram message ID (on success) |
+| `deliveries[].error` | Error description (on failure) |
+
+---
+
+### Status Codes
 
 | Code | Meaning |
 |------|---------|
