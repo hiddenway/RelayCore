@@ -20,7 +20,8 @@ export function formatMessage(routeName: string, event: RelayEventInput): string
   text += `<code>Time:  ${timestamp}</code>\n`;
 
   if (event.message) {
-    text += `\n${escapeHtml(event.message)}\n`;
+    // message is passed as-is — HTML tags are rendered by Telegram (parse_mode: HTML)
+    text += `\n${event.message}\n`;
   }
 
   if (event.payload) {

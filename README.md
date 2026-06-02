@@ -149,12 +149,36 @@ If omitted, the route name is used as the title.
 
 #### `message` — string, max 4096 chars
 
-The body text of the message. Shown as plain text below the title.  
-Supports multi-line strings.
+The body text of the message. Rendered by Telegram with **HTML formatting** — tags are interpreted, not escaped.  
+Supports multi-line strings via `\n`.
+
+**Supported HTML tags:**
+
+| Tag | Result |
+|-----|--------|
+| `<b>text</b>` | **bold** |
+| `<i>text</i>` | _italic_ |
+| `<u>text</u>` | underline |
+| `<s>text</s>` | ~~strikethrough~~ |
+| `<code>text</code>` | `inline code` |
+| `<pre>text</pre>` | code block |
+| `<pre><code class="language-python">...</code></pre>` | syntax-highlighted code block |
+| `<a href="https://...">text</a>` | hyperlink |
+| `<tg-spoiler>text</tg-spoiler>` | hidden spoiler text |
 
 ```json
-{ "message": "User john@example.com completed checkout.\nOrder total: $49.99" }
+{
+  "message": "Deploy <b>v2.1.0</b> to <code>production</code> — <a href=\"https://github.com/org/repo/releases\">view release</a>"
+}
 ```
+
+```json
+{
+  "message": "Exception in worker:\n<pre><code class=\"language-python\">KeyError: 'user_id'\n  at line 42</code></pre>"
+}
+```
+
+> **Note:** `title` and `payload` are always HTML-escaped automatically. Only `message` renders HTML tags.
 
 ---
 
