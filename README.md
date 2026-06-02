@@ -75,7 +75,7 @@ In **Settings → Environment Variables**, add:
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `APP_SECRET` | Encryption key for tokens and sessions. Generate with `openssl rand -hex 32` | `a3f8...` |
-| `SETUP_TOKEN` | One-time password to access the setup wizard | `mysecretsetup` |
+| `SETUP_PASSWORD` | One-time password to access the setup wizard | `mysecretsetup` |
 
 ### Step 4 — Redeploy
 
@@ -87,7 +87,7 @@ Deployments → ⋯ → Redeploy
 ### Step 5 — Complete Setup Wizard
 
 Open your app URL — you'll be guided through:
-1. Enter your `SETUP_TOKEN`
+1. Enter your `SETUP_PASSWORD`
 2. Create admin username/password
 3. Connect your first Telegram bot
 4. Create your first route
@@ -105,7 +105,7 @@ Open your app URL — you'll be guided through:
 | `UPSTASH_REDIS_REST_URL` | ✅* | Upstash | Alternative to KV vars |
 | `UPSTASH_REDIS_REST_TOKEN` | ✅* | Upstash | Alternative to KV vars |
 | `APP_SECRET` | ✅ | Manual | 32+ char random string |
-| `SETUP_TOKEN` | ✅ | Manual | Setup wizard password |
+| `SETUP_PASSWORD` | ✅ | Manual | Setup wizard password |
 
 \*Either KV or Upstash vars required, not both.
 
@@ -346,7 +346,7 @@ Edit `.env.local`:
 KV_REST_API_URL=https://your-kv.kv.vercel-storage.com
 KV_REST_API_TOKEN=your-token
 APP_SECRET=your-random-32-char-secret
-SETUP_TOKEN=your-setup-password
+SETUP_PASSWORD=your-setup-password
 ```
 
 ```bash

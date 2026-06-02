@@ -21,8 +21,8 @@ export async function POST(request: NextRequest) {
   const completed = await isSetupCompleted();
   if (completed) return NextResponse.json({ error: "Setup already completed" }, { status: 403 });
 
-  const expectedToken = process.env.SETUP_TOKEN;
-  if (!expectedToken) return NextResponse.json({ error: "SETUP_TOKEN not configured" }, { status: 500 });
+  const expectedToken = process.env.SETUP_PASSWORD;
+  if (!expectedToken) return NextResponse.json({ error: "SETUP_PASSWORD not configured" }, { status: 500 });
 
   let body: z.infer<typeof setupSchema>;
   try {

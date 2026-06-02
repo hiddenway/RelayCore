@@ -165,7 +165,7 @@ export function SetupWizard() {
             {step === "token" && (
               <StepSection
                 title="Enter Setup Password"
-                desc="Enter the SETUP_TOKEN value you set in your Vercel environment variables. This is a one-time password to protect the setup process."
+                desc="Enter the SETUP_PASSWORD value you set in your Vercel environment variables. This is a one-time password to protect the setup process."
               >
                 <Field label="SETUP PASSWORD" type="password" value={data.setupToken ?? ""} onChange={(v) => update("setupToken", v)} placeholder="Enter your setup password" />
                 <Btn loading={loading} onClick={async () => {

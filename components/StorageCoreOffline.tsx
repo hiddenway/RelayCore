@@ -94,7 +94,7 @@ export function StorageCoreOffline() {
               { label: "UPSTASH_REDIS_REST_URL  or  KV_REST_API_URL", status: "MISSING", color: "#ef4444" },
               { label: "UPSTASH_REDIS_REST_TOKEN  or  KV_REST_API_TOKEN", status: "MISSING", color: "#ef4444" },
               { label: "APP_SECRET", status: "REQUIRED", color: "#f59e0b" },
-              { label: "SETUP_TOKEN", status: "REQUIRED", color: "#f59e0b" },
+              { label: "SETUP_PASSWORD", status: "REQUIRED", color: "#f59e0b" },
             ].map((item) => (
               <div key={item.label} className="flex items-center justify-between">
                 <code className="text-xs font-mono" style={{ color: "#94a3b8" }}>
@@ -136,7 +136,7 @@ export function StorageCoreOffline() {
             <Step n={2} title="Set Environment Variables">
               Add these variables to your Vercel project settings:
               <div className="mt-2 space-y-1">
-                {["APP_SECRET=your-random-32-char-secret", "SETUP_TOKEN=your-setup-token"].map((v) => (
+                {["APP_SECRET=your-random-32-char-secret", "SETUP_PASSWORD=your-setup-token"].map((v) => (
                   <code
                     key={v}
                     className="block text-xs px-3 py-1.5 rounded"
