@@ -36,7 +36,8 @@ export interface EventLog {
   routeSlug: string;
   title?: string;
   message?: string;
-  payload?: string | Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload?: any;
   level: "info" | "success" | "warning" | "error";
   deliveries: DeliveryResult[];
   timestamp: string;
@@ -59,7 +60,8 @@ export interface Stats {
 export interface RelayEventInput {
   title?: string;
   message?: string;
-  payload?: string | Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload?: any;
   level?: "info" | "success" | "warning" | "error";
 }
 

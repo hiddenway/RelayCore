@@ -24,7 +24,7 @@ export function formatMessage(routeName: string, event: RelayEventInput): string
     text += `\n${event.message}\n`;
   }
 
-  if (event.payload) {
+  if (event.payload !== undefined && event.payload !== null) {
     const payloadStr = typeof event.payload === "string"
       ? event.payload
       : JSON.stringify(event.payload, null, 2);
