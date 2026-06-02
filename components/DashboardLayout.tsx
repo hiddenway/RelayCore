@@ -33,19 +33,19 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside
         className="relative z-10 flex flex-col w-56 min-h-screen flex-shrink-0"
-        style={{ borderRight: "1px solid rgba(14,165,233,0.1)" }}
+        style={{ borderRight: "1px solid rgba(56,189,248,0.1)" }}
       >
         {/* Logo */}
         <div
           className="flex items-center gap-3 px-4 py-4"
-          style={{ borderBottom: "1px solid rgba(14,165,233,0.1)" }}
+          style={{ borderBottom: "1px solid rgba(56,189,248,0.1)" }}
         >
           <div
             className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
             style={{
-              background: "radial-gradient(circle, rgba(14,165,233,0.3) 0%, rgba(2,8,23,0.9) 70%)",
-              border: "1px solid rgba(14,165,233,0.4)",
-              boxShadow: "0 0 10px rgba(14,165,233,0.2)",
+              background: "radial-gradient(circle, rgba(56,189,248,0.3) 0%, rgba(2,8,23,0.9) 70%)",
+              border: "1px solid rgba(56,189,248,0.4)",
+              boxShadow: "0 0 10px rgba(56,189,248,0.2)",
             }}
           >
             <span style={{ color: "#38bdf8", fontSize: "14px" }}>◈</span>
@@ -54,7 +54,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <div className="text-sm font-bold tracking-wide" style={{ color: "#e2e8f0" }}>
               <span style={{ color: "#38bdf8" }} className="text-glow">Relay</span>Core
             </div>
-            <div className="text-[9px] tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.4)" }}>
+            <div className="text-[9px] tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.4)" }}>
               CONTROL PANEL
             </div>
           </div>
@@ -63,7 +63,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* System status */}
         <div
           className="px-4 py-2 flex items-center gap-2"
-          style={{ borderBottom: "1px solid rgba(14,165,233,0.07)" }}
+          style={{ borderBottom: "1px solid rgba(56,189,248,0.07)" }}
         >
           <span className="w-1.5 h-1.5 rounded-full status-dot" style={{ background: "#10b981", boxShadow: "0 0 5px #10b981" }} />
           <span className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(16,185,129,0.7)" }}>
@@ -82,8 +82,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 className="flex items-center gap-3 px-4 py-2.5 text-xs transition-all duration-200 relative group"
                 style={{
                   color: active ? "#38bdf8" : "rgba(148,163,184,0.6)",
-                  background: active ? "rgba(14,165,233,0.07)" : "transparent",
-                  borderRight: active ? "2px solid rgba(14,165,233,0.6)" : "2px solid transparent",
+                  background: active ? "rgba(56,189,248,0.07)" : "transparent",
+                  borderRight: active ? "2px solid rgba(56,189,248,0.6)" : "2px solid transparent",
                   fontWeight: active ? 700 : 400,
                   letterSpacing: "0.1em",
                 }}
@@ -92,7 +92,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   <motion.div
                     layoutId="nav-active"
                     className="absolute inset-0"
-                    style={{ background: "rgba(14,165,233,0.05)" }}
+                    style={{ background: "rgba(56,189,248,0.05)" }}
                     transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                   />
                 )}
@@ -104,7 +104,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Footer */}
-        <div style={{ borderTop: "1px solid rgba(14,165,233,0.1)" }} className="p-4">
+        <div style={{ borderTop: "1px solid rgba(56,189,248,0.1)" }} className="p-4">
           <button
             onClick={handleLogout}
             disabled={loggingOut}

@@ -112,7 +112,7 @@ export function SetupWizard() {
             <h1 className="text-2xl font-bold tracking-wider mb-1" style={{ color: "#e2e8f0" }}>
               <span style={{ color: "#38bdf8" }} className="text-glow">Relay</span>Core
             </h1>
-            <p className="text-xs tracking-[0.25em] uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+            <p className="text-xs tracking-[0.25em] uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
               INITIALIZATION WIZARD
             </p>
           </motion.div>
@@ -125,15 +125,15 @@ export function SetupWizard() {
               <div
                 className="flex-1 h-px transition-all duration-500"
                 style={{
-                  background: i <= currentIndex ? "rgba(14,165,233,0.7)" : "rgba(14,165,233,0.15)",
-                  boxShadow: i <= currentIndex ? "0 0 6px rgba(14,165,233,0.5)" : "none",
+                  background: i <= currentIndex ? "rgba(56,189,248,0.7)" : "rgba(56,189,248,0.15)",
+                  boxShadow: i <= currentIndex ? "0 0 6px rgba(56,189,248,0.5)" : "none",
                 }}
               />
               <div
                 className="w-2 h-2 rounded-full flex-shrink-0 transition-all duration-300"
                 style={{
-                  background: i < currentIndex ? "#0ea5e9" : i === currentIndex ? "#38bdf8" : "rgba(14,165,233,0.2)",
-                  boxShadow: i === currentIndex ? "0 0 8px rgba(56,189,248,0.8)" : i < currentIndex ? "0 0 4px rgba(14,165,233,0.5)" : "none",
+                  background: i < currentIndex ? "#38bdf8" : i === currentIndex ? "#38bdf8" : "rgba(56,189,248,0.2)",
+                  boxShadow: i === currentIndex ? "0 0 8px rgba(56,189,248,0.8)" : i < currentIndex ? "0 0 4px rgba(56,189,248,0.5)" : "none",
                 }}
               />
             </div>
@@ -142,10 +142,10 @@ export function SetupWizard() {
 
         {/* Step label */}
         <div className="flex items-center gap-2 mb-6">
-          <div className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+          <div className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
             STEP {currentIndex + 1} / {STEPS.length}
           </div>
-          <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+          <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
           <div className="text-xs font-bold tracking-widest uppercase" style={{ color: "#38bdf8" }}>
             {STEP_LABELS[step]}
           </div>
@@ -160,7 +160,7 @@ export function SetupWizard() {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.25 }}
             className="glass-card rounded-lg p-6"
-            style={{ border: "1px solid rgba(14,165,233,0.15)" }}
+            style={{ border: "1px solid rgba(56,189,248,0.15)" }}
           >
             {step === "token" && (() => {
               const handle = async () => {
@@ -248,9 +248,9 @@ export function SetupWizard() {
                 </div>
                 <div
                   className="p-3 rounded text-xs font-mono mb-4"
-                  style={{ background: "rgba(14,165,233,0.05)", border: "1px solid rgba(14,165,233,0.1)", color: "#94a3b8" }}
+                  style={{ background: "rgba(56,189,248,0.05)", border: "1px solid rgba(56,189,248,0.1)", color: "#94a3b8" }}
                 >
-                  <div style={{ color: "rgba(14,165,233,0.6)" }}># Test with curl</div>
+                  <div style={{ color: "rgba(56,189,248,0.6)" }}># Test with curl</div>
                   <div>curl -X POST \</div>
                   <div style={{ paddingLeft: "12px" }}>-H &quot;x-api-key: {result.apiKey}&quot; \</div>
                   <div style={{ paddingLeft: "12px" }}>-H &quot;Content-Type: application/json&quot; \</div>
@@ -300,7 +300,7 @@ export function SetupWizard() {
           </motion.div>
         </AnimatePresence>
 
-        <p className="mt-4 text-center text-xs tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.25)" }}>
+        <p className="mt-4 text-center text-xs tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.25)" }}>
           RELAY CORE v1.0 · SECURE INITIALIZATION CHANNEL
         </p>
       </div>
@@ -325,7 +325,7 @@ function Field({ label, value, onChange, type = "text", placeholder, autoFocus }
 }) {
   return (
     <div>
-      <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(14,165,233,0.7)" }}>
+      <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(56,189,248,0.7)" }}>
         {label}
       </label>
       <input
@@ -369,11 +369,11 @@ function InfoRow({ label, value, mono, copyable }: { label: string; value: strin
 
   return (
     <div>
-      <div className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: "rgba(14,165,233,0.6)" }}>{label}</div>
+      <div className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: "rgba(56,189,248,0.6)" }}>{label}</div>
       <div className="flex items-center gap-2">
         <code
           className="flex-1 text-xs px-2 py-1.5 rounded"
-          style={{ background: "rgba(14,165,233,0.05)", border: "1px solid rgba(14,165,233,0.1)", color: "#38bdf8", wordBreak: "break-all" }}
+          style={{ background: "rgba(56,189,248,0.05)", border: "1px solid rgba(56,189,248,0.1)", color: "#38bdf8", wordBreak: "break-all" }}
         >
           {mono ? value : value}
         </code>

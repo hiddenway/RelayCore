@@ -19,8 +19,8 @@ export function HolographicRings({ size = 200, className = "" }: HolographicRing
         style={{
           width: size * 0.95,
           height: size * 0.95,
-          border: "1px solid rgba(14,165,233,0.25)",
-          boxShadow: "0 0 20px rgba(14,165,233,0.1)",
+          border: "1px solid rgba(56,189,248,0.25)",
+          boxShadow: "0 0 20px rgba(56,189,248,0.1)",
         }}
         animate={{ rotate: 360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -31,8 +31,8 @@ export function HolographicRings({ size = 200, className = "" }: HolographicRing
             top: "2px",
             left: "50%",
             transform: "translateX(-50%)",
-            background: "rgba(14,165,233,0.8)",
-            boxShadow: "0 0 8px rgba(14,165,233,0.9)",
+            background: "rgba(56,189,248,0.8)",
+            boxShadow: "0 0 8px rgba(56,189,248,0.9)",
           }}
         />
       </motion.div>
@@ -76,7 +76,7 @@ export function HolographicRings({ size = 200, className = "" }: HolographicRing
         style={{
           width: size * 0.5,
           height: size * 0.5,
-          border: "1px dashed rgba(14,165,233,0.2)",
+          border: "1px dashed rgba(56,189,248,0.2)",
         }}
         animate={{ rotate: 360 }}
         transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
@@ -88,9 +88,9 @@ export function HolographicRings({ size = 200, className = "" }: HolographicRing
         style={{
           width: size * 0.32,
           height: size * 0.32,
-          background: "radial-gradient(circle, rgba(14,165,233,0.15) 0%, rgba(2,8,23,0.9) 70%)",
-          border: "1px solid rgba(14,165,233,0.4)",
-          boxShadow: "0 0 20px rgba(14,165,233,0.2), inset 0 0 20px rgba(14,165,233,0.05)",
+          background: "radial-gradient(circle, rgba(56,189,248,0.15) 0%, rgba(2,8,23,0.9) 70%)",
+          border: "1px solid rgba(56,189,248,0.4)",
+          boxShadow: "0 0 20px rgba(56,189,248,0.2), inset 0 0 20px rgba(56,189,248,0.05)",
         }}
       >
         <motion.div
@@ -98,8 +98,8 @@ export function HolographicRings({ size = 200, className = "" }: HolographicRing
             width: size * 0.12,
             height: size * 0.12,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(14,165,233,0.9) 0%, rgba(14,165,233,0.3) 60%, transparent 100%)",
-            boxShadow: "0 0 15px rgba(14,165,233,0.7)",
+            background: "radial-gradient(circle, rgba(56,189,248,0.9) 0%, rgba(56,189,248,0.3) 60%, transparent 100%)",
+            boxShadow: "0 0 15px rgba(56,189,248,0.7)",
           }}
           animate={{ scale: [1, 1.3, 1], opacity: [0.8, 1, 0.8] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

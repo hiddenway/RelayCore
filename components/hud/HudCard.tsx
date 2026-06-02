@@ -37,9 +37,9 @@ export function HudCard({ children, className, glow, corners, animate = true, la
           className="absolute -top-px left-4 px-2 text-[10px] font-bold tracking-widest uppercase"
           style={{
             background: "#020817",
-            color: "rgba(14,165,233,0.7)",
-            borderLeft: "1px solid rgba(14,165,233,0.2)",
-            borderRight: "1px solid rgba(14,165,233,0.2)",
+            color: "rgba(56,189,248,0.7)",
+            borderLeft: "1px solid rgba(56,189,248,0.2)",
+            borderRight: "1px solid rgba(56,189,248,0.2)",
           }}
         >
           {label}

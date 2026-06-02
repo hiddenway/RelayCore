@@ -49,11 +49,11 @@ export function RoutesPanel() {
       {/* Header */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-3 flex-1">
-          <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
-          <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+          <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
+          <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
             ROUTE MATRIX
           </h1>
-          <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+          <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
         </div>
         <Link href="/routes/new">
           <button className="hud-btn hud-btn-primary px-4 py-2 text-xs font-bold tracking-wider rounded">
@@ -65,12 +65,12 @@ export function RoutesPanel() {
       {/* Routes list */}
       <HudCard corners label="ACTIVE ROUTES">
         {loading ? (
-          <div className="text-center py-12 text-xs" style={{ color: "rgba(14,165,233,0.4)" }}>
+          <div className="text-center py-12 text-xs" style={{ color: "rgba(56,189,248,0.4)" }}>
             LOADING ROUTES...
           </div>
         ) : routes.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(14,165,233,0.3)" }}>NO ROUTES CONFIGURED</div>
+            <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(56,189,248,0.3)" }}>NO ROUTES CONFIGURED</div>
             <Link href="/routes/new">
               <button className="hud-btn px-4 py-2 text-xs font-bold tracking-wider rounded mt-2">
                 CREATE FIRST ROUTE →
@@ -89,8 +89,8 @@ export function RoutesPanel() {
                   transition={{ delay: i * 0.04 }}
                   className="rounded p-4 relative"
                   style={{
-                    background: route.enabled ? "rgba(14,165,233,0.04)" : "rgba(2,8,23,0.6)",
-                    border: `1px solid ${route.enabled ? "rgba(14,165,233,0.15)" : "rgba(14,165,233,0.07)"}`,
+                    background: route.enabled ? "rgba(56,189,248,0.04)" : "rgba(2,8,23,0.6)",
+                    border: `1px solid ${route.enabled ? "rgba(56,189,248,0.15)" : "rgba(56,189,248,0.07)"}`,
                   }}
                 >
                   <div className="flex items-start gap-4">
@@ -108,8 +108,8 @@ export function RoutesPanel() {
                         <code
                           className="text-xs px-2 py-0.5 rounded"
                           style={{
-                            background: "rgba(14,165,233,0.08)",
-                            border: "1px solid rgba(14,165,233,0.15)",
+                            background: "rgba(56,189,248,0.08)",
+                            border: "1px solid rgba(56,189,248,0.15)",
                             color: "#38bdf8",
                           }}
                         >
@@ -125,7 +125,7 @@ export function RoutesPanel() {
                         <span style={{ color: "rgba(148,163,184,0.5)" }}>
                           {route.targets.length} target{route.targets.length !== 1 ? "s" : ""}
                         </span>
-                        <span style={{ color: "rgba(14,165,233,0.3)" }}>·</span>
+                        <span style={{ color: "rgba(56,189,248,0.3)" }}>·</span>
                         <span style={{ color: "rgba(148,163,184,0.4)" }}>
                           Updated {timeAgo(route.updatedAt)}
                         </span>

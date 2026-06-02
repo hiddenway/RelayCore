@@ -98,7 +98,7 @@ export function RouteDetail({ slug }: { slug: string }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="text-xs tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.4)" }}>
+        <div className="text-xs tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.4)" }}>
           LOADING ROUTE DATA...
         </div>
       </div>
@@ -123,11 +123,11 @@ export function RouteDetail({ slug }: { slug: string }) {
         <button onClick={() => router.push("/routes")} className="hud-btn px-3 py-1.5 text-xs rounded">
           ← BACK
         </button>
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
-        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
+        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
           ROUTE: {slug.toUpperCase()}
         </h1>
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
       </div>
 
       {/* Route overview */}
@@ -143,7 +143,7 @@ export function RouteDetail({ slug }: { slug: string }) {
             )}
             <code
               className="text-sm px-3 py-1.5 rounded inline-block"
-              style={{ background: "rgba(14,165,233,0.08)", border: "1px solid rgba(14,165,233,0.2)", color: "#38bdf8" }}
+              style={{ background: "rgba(56,189,248,0.08)", border: "1px solid rgba(56,189,248,0.2)", color: "#38bdf8" }}
             >
               POST {origin}/api/r/{slug}
             </code>
@@ -204,7 +204,7 @@ export function RouteDetail({ slug }: { slug: string }) {
         {/* Hidden state */}
         {!newApiKey && !revealedKey && (
           <div className="flex items-center justify-between mb-4">
-            <div className="text-xs font-mono" style={{ color: "rgba(14,165,233,0.4)" }}>
+            <div className="text-xs font-mono" style={{ color: "rgba(56,189,248,0.4)" }}>
               x-api-key: rck_••••••••••••••••••••••••••••••••••••••••••••••••
             </div>
             <button
@@ -247,7 +247,7 @@ export function RouteDetail({ slug }: { slug: string }) {
                   Chat ID: {target.chatId}
                 </div>
               </div>
-              <div className="text-xs font-mono px-2 py-1 rounded" style={{ background: "rgba(14,165,233,0.08)", color: "#38bdf8" }}>
+              <div className="text-xs font-mono px-2 py-1 rounded" style={{ background: "rgba(56,189,248,0.08)", color: "#38bdf8" }}>
                 bot:{target.botId.substring(0, 8)}...
               </div>
             </div>
@@ -261,7 +261,7 @@ export function RouteDetail({ slug }: { slug: string }) {
           <Section label="REQUEST">
             <pre
               className="p-3 rounded overflow-x-auto"
-              style={{ background: "rgba(14,165,233,0.04)", border: "1px solid rgba(14,165,233,0.1)", color: "#94a3b8" }}
+              style={{ background: "rgba(56,189,248,0.04)", border: "1px solid rgba(56,189,248,0.1)", color: "#94a3b8" }}
             >
               <code>{`POST /api/r/${slug}
 x-api-key: <your-api-key>
@@ -279,7 +279,7 @@ Content-Type: application/json
           <Section label="CURL EXAMPLE">
             <pre
               className="p-3 rounded overflow-x-auto"
-              style={{ background: "rgba(14,165,233,0.04)", border: "1px solid rgba(14,165,233,0.1)", color: "#94a3b8" }}
+              style={{ background: "rgba(56,189,248,0.04)", border: "1px solid rgba(56,189,248,0.1)", color: "#94a3b8" }}
             >
               <code>{`curl -X POST \\
   -H "x-api-key: YOUR_API_KEY" \\
@@ -297,7 +297,7 @@ Content-Type: application/json
           <Section label="JAVASCRIPT FETCH">
             <pre
               className="p-3 rounded overflow-x-auto"
-              style={{ background: "rgba(14,165,233,0.04)", border: "1px solid rgba(14,165,233,0.1)", color: "#94a3b8" }}
+              style={{ background: "rgba(56,189,248,0.04)", border: "1px solid rgba(56,189,248,0.1)", color: "#94a3b8" }}
             >
               <code>{`await fetch("${origin}/api/r/${slug}", {
   method: "POST",
@@ -324,7 +324,7 @@ Content-Type: application/json
               <div
                 key={event.id}
                 className="flex items-start gap-3 p-2 rounded text-xs"
-                style={{ background: "rgba(14,165,233,0.03)", border: "1px solid rgba(14,165,233,0.07)" }}
+                style={{ background: "rgba(56,189,248,0.03)", border: "1px solid rgba(56,189,248,0.07)" }}
               >
                 <span className={`badge badge-${event.level}`}>{event.level}</span>
                 <div className="flex-1">
@@ -357,7 +357,7 @@ Content-Type: application/json
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-[10px] font-bold tracking-widest uppercase mb-2" style={{ color: "rgba(14,165,233,0.6)" }}>{label}</div>
+      <div className="text-[10px] font-bold tracking-widest uppercase mb-2" style={{ color: "rgba(56,189,248,0.6)" }}>{label}</div>
       {children}
     </div>
   );
@@ -369,8 +369,8 @@ function KeyRow({ value, onCopy, copied, highlight }: { value: string; onCopy: (
       <code
         className="flex-1 text-sm px-3 py-2 rounded break-all"
         style={{
-          background: highlight ? "rgba(245,158,11,0.05)" : "rgba(14,165,233,0.05)",
-          border: `1px solid ${highlight ? "rgba(245,158,11,0.25)" : "rgba(14,165,233,0.2)"}`,
+          background: highlight ? "rgba(245,158,11,0.05)" : "rgba(56,189,248,0.05)",
+          border: `1px solid ${highlight ? "rgba(245,158,11,0.25)" : "rgba(56,189,248,0.2)"}`,
           color: highlight ? "#fcd34d" : "#38bdf8",
         }}
       >

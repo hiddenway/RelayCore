@@ -11,7 +11,7 @@ export function GridBackground() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(14,165,233,0.04) 0%, transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(56,189,248,0.04) 0%, transparent 70%)",
         }}
       />
 
@@ -20,7 +20,7 @@ export function GridBackground() {
         className="absolute top-0 left-0 w-96 h-96"
         style={{
           background:
-            "radial-gradient(circle at 0% 0%, rgba(14,165,233,0.06) 0%, transparent 60%)",
+            "radial-gradient(circle at 0% 0%, rgba(56,189,248,0.06) 0%, transparent 60%)",
         }}
       />
       <div
@@ -34,11 +34,11 @@ export function GridBackground() {
       {/* Horizontal accent lines */}
       <div
         className="absolute left-0 right-0"
-        style={{ top: "20%", height: "1px", background: "linear-gradient(90deg, transparent 0%, rgba(14,165,233,0.08) 30%, rgba(14,165,233,0.15) 50%, rgba(14,165,233,0.08) 70%, transparent 100%)" }}
+        style={{ top: "20%", height: "1px", background: "linear-gradient(90deg, transparent 0%, rgba(56,189,248,0.08) 30%, rgba(56,189,248,0.15) 50%, rgba(56,189,248,0.08) 70%, transparent 100%)" }}
       />
       <div
         className="absolute left-0 right-0"
-        style={{ top: "80%", height: "1px", background: "linear-gradient(90deg, transparent 0%, rgba(14,165,233,0.05) 30%, rgba(14,165,233,0.1) 50%, rgba(14,165,233,0.05) 70%, transparent 100%)" }}
+        style={{ top: "80%", height: "1px", background: "linear-gradient(90deg, transparent 0%, rgba(56,189,248,0.05) 30%, rgba(56,189,248,0.1) 50%, rgba(56,189,248,0.05) 70%, transparent 100%)" }}
       />
     </div>
   );

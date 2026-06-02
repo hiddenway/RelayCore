@@ -27,11 +27,11 @@ export function SettingsPanel() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
-        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
+        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
           SYSTEM SETTINGS
         </h1>
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
       </div>
 
       {/* Environment variables */}
@@ -58,9 +58,9 @@ export function SettingsPanel() {
                   <span
                     className="badge"
                     style={{
-                      background: v.from === "Vercel Storage" ? "rgba(14,165,233,0.1)" : "rgba(16,185,129,0.1)",
+                      background: v.from === "Vercel Storage" ? "rgba(56,189,248,0.1)" : "rgba(16,185,129,0.1)",
                       color: v.from === "Vercel Storage" ? "#38bdf8" : "#6ee7b7",
-                      border: `1px solid ${v.from === "Vercel Storage" ? "rgba(14,165,233,0.2)" : "rgba(16,185,129,0.2)"}`,
+                      border: `1px solid ${v.from === "Vercel Storage" ? "rgba(56,189,248,0.2)" : "rgba(16,185,129,0.2)"}`,
                     }}
                   >
                     {v.from}
@@ -119,7 +119,7 @@ export function SettingsPanel() {
       </HudCard>
 
       {/* Version info */}
-      <div className="flex items-center justify-between text-[10px] tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.25)" }}>
+      <div className="flex items-center justify-between text-[10px] tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.25)" }}>
         <span>RELAY CORE v1.0</span>
         <span>NEXT.JS 15 · UPSTASH REDIS · VERCEL</span>
       </div>

@@ -39,18 +39,18 @@ export function NewBotForm() {
   return (
     <div className="max-w-lg space-y-6">
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
-        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
+        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
           ADD TELEGRAM BOT
         </h1>
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
       </div>
 
       <HudCard corners>
         <div className="space-y-4">
           <div
             className="p-3 rounded text-xs"
-            style={{ background: "rgba(14,165,233,0.05)", border: "1px solid rgba(14,165,233,0.1)", color: "#94a3b8" }}
+            style={{ background: "rgba(56,189,248,0.05)", border: "1px solid rgba(56,189,248,0.1)", color: "#94a3b8" }}
           >
             <div className="font-bold mb-1" style={{ color: "#38bdf8" }}>How to get a bot token:</div>
             <ol className="space-y-1 list-decimal list-inside">
@@ -61,7 +61,7 @@ export function NewBotForm() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(14,165,233,0.7)" }}>
+            <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(56,189,248,0.7)" }}>
               BOT NAME
             </label>
             <input
@@ -74,7 +74,7 @@ export function NewBotForm() {
           </div>
 
           <div>
-            <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(14,165,233,0.7)" }}>
+            <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(56,189,248,0.7)" }}>
               BOT TOKEN
             </label>
             <input

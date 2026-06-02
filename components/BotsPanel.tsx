@@ -49,11 +49,11 @@ export function BotsPanel() {
       {/* Header */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-3 flex-1">
-          <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
-          <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+          <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
+          <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
             BOT RELAY NETWORK
           </h1>
-          <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+          <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
         </div>
         <Link href="/bots/new">
           <button className="hud-btn hud-btn-primary px-4 py-2 text-xs font-bold tracking-wider rounded">
@@ -64,12 +64,12 @@ export function BotsPanel() {
 
       <HudCard corners label="CONNECTED BOTS">
         {loading ? (
-          <div className="text-center py-12 text-xs" style={{ color: "rgba(14,165,233,0.4)" }}>
+          <div className="text-center py-12 text-xs" style={{ color: "rgba(56,189,248,0.4)" }}>
             LOADING BOT NETWORK...
           </div>
         ) : bots.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(14,165,233,0.3)" }}>NO BOTS CONNECTED</div>
+            <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(56,189,248,0.3)" }}>NO BOTS CONNECTED</div>
             <Link href="/bots/new">
               <button className="hud-btn px-4 py-2 text-xs font-bold tracking-wider rounded mt-2">
                 ADD FIRST BOT →

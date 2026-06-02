@@ -91,18 +91,18 @@ export function NewRouteForm() {
   return (
     <div className="max-w-lg space-y-6">
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
-        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
+        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
           NEW ROUTE
         </h1>
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
       </div>
 
       <HudCard corners>
         <div className="space-y-4">
           <Field label="ROUTE NAME" value={name} onChange={setName} placeholder="My App Alerts" />
           {name && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xs" style={{ color: "rgba(14,165,233,0.6)" }}>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xs" style={{ color: "rgba(56,189,248,0.6)" }}>
               Endpoint: <code style={{ color: "#38bdf8" }}>/api/r/{slugify(name)}</code>
             </motion.div>
           )}
@@ -118,10 +118,10 @@ export function NewRouteForm() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               className="p-3 rounded space-y-2"
-              style={{ background: "rgba(14,165,233,0.04)", border: "1px solid rgba(14,165,233,0.1)" }}
+              style={{ background: "rgba(56,189,248,0.04)", border: "1px solid rgba(56,189,248,0.1)" }}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+                <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
                   TARGET {i + 1}
                 </span>
                 {targets.length > 1 && (
@@ -131,7 +131,7 @@ export function NewRouteForm() {
                 )}
               </div>
               <div>
-                <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(14,165,233,0.5)" }}>
+                <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(56,189,248,0.5)" }}>
                   BOT
                 </label>
                 <select
@@ -187,7 +187,7 @@ export function NewRouteForm() {
 function Field({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <div>
-      <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(14,165,233,0.7)" }}>
+      <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(56,189,248,0.7)" }}>
         {label}
       </label>
       <input
@@ -205,15 +205,15 @@ function InfoBlock({ label, value, copyable, warning }: { label: string; value: 
   const [copied, setCopied] = useState(false);
   return (
     <div>
-      <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: warning ? "rgba(245,158,11,0.8)" : "rgba(14,165,233,0.6)" }}>
+      <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: warning ? "rgba(245,158,11,0.8)" : "rgba(56,189,248,0.6)" }}>
         {label}
       </div>
       <div className="flex items-center gap-2">
         <code
           className="flex-1 text-xs px-2 py-1.5 rounded break-all"
           style={{
-            background: warning ? "rgba(245,158,11,0.05)" : "rgba(14,165,233,0.05)",
-            border: `1px solid ${warning ? "rgba(245,158,11,0.2)" : "rgba(14,165,233,0.1)"}`,
+            background: warning ? "rgba(245,158,11,0.05)" : "rgba(56,189,248,0.05)",
+            border: `1px solid ${warning ? "rgba(245,158,11,0.2)" : "rgba(56,189,248,0.1)"}`,
             color: warning ? "#fcd34d" : "#38bdf8",
           }}
         >
@@ -235,12 +235,12 @@ function InfoBlock({ label, value, copyable, warning }: { label: string; value: 
 function CurlBlock({ slug, apiKey }: { slug: string; apiKey: string }) {
   return (
     <div>
-      <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(14,165,233,0.6)" }}>
+      <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(56,189,248,0.6)" }}>
         CURL EXAMPLE
       </div>
       <pre
         className="text-xs p-3 rounded overflow-x-auto"
-        style={{ background: "rgba(14,165,233,0.04)", border: "1px solid rgba(14,165,233,0.1)", color: "#94a3b8" }}
+        style={{ background: "rgba(56,189,248,0.04)", border: "1px solid rgba(56,189,248,0.1)", color: "#94a3b8" }}
       >
         <code>{`curl -X POST \\
   -H "x-api-key: ${apiKey}" \\

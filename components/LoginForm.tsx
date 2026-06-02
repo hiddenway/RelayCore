@@ -56,7 +56,7 @@ export function LoginForm() {
           <h1 className="text-2xl font-bold tracking-wider" style={{ color: "#e2e8f0" }}>
             <span style={{ color: "#38bdf8" }} className="text-glow">Relay</span>Core
           </h1>
-          <p className="text-xs tracking-[0.25em] uppercase mt-1" style={{ color: "rgba(14,165,233,0.5)" }}>
+          <p className="text-xs tracking-[0.25em] uppercase mt-1" style={{ color: "rgba(56,189,248,0.5)" }}>
             SECURE ACCESS TERMINAL
           </p>
         </div>
@@ -64,18 +64,18 @@ export function LoginForm() {
         {/* Form */}
         <div
           className="glass-card rounded-lg p-6"
-          style={{ border: "1px solid rgba(14,165,233,0.15)" }}
+          style={{ border: "1px solid rgba(56,189,248,0.15)" }}
         >
           <div className="flex items-center gap-2 mb-5">
-            <span className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+            <span className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
               IDENTITY VERIFICATION
             </span>
-            <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+            <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(14,165,233,0.7)" }}>
+              <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(56,189,248,0.7)" }}>
                 USERNAME
               </label>
               <input
@@ -90,7 +90,7 @@ export function LoginForm() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(14,165,233,0.7)" }}>
+              <label className="block text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: "rgba(56,189,248,0.7)" }}>
                 PASSWORD
               </label>
               <input
@@ -135,7 +135,7 @@ export function LoginForm() {
           </form>
         </div>
 
-        <p className="mt-4 text-center text-xs tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.25)" }}>
+        <p className="mt-4 text-center text-xs tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.25)" }}>
           RELAY CORE v1.0 · SECURE LOGIN
         </p>
       </motion.div>

@@ -52,11 +52,11 @@ export function DashboardHome() {
     <div className="space-y-6">
       {/* Page header */}
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
-        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(14,165,233,0.6)" }}>
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
+        <h1 className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "rgba(56,189,248,0.6)" }}>
           CORE STATUS
         </h1>
-        <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+        <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
       </div>
 
       {/* API Core module */}
@@ -69,7 +69,7 @@ export function DashboardHome() {
           <HolographicRings size={160} />
         </motion.div>
         <div className="mt-4 text-center">
-          <div className="text-xs font-bold tracking-[0.3em] uppercase mb-1" style={{ color: "rgba(14,165,233,0.6)" }}>
+          <div className="text-xs font-bold tracking-[0.3em] uppercase mb-1" style={{ color: "rgba(56,189,248,0.6)" }}>
             RELAY ENGINE
           </div>
           <StatusBadge active={true} label="OPERATIONAL" />
@@ -121,18 +121,18 @@ export function DashboardHome() {
             LIVE
           </span>
           <div className="flex-1" />
-          <a href="/logs" className="text-[10px] tracking-widest uppercase hud-btn px-2 py-1 rounded" style={{ color: "rgba(14,165,233,0.7)" }}>
+          <a href="/logs" className="text-[10px] tracking-widest uppercase hud-btn px-2 py-1 rounded" style={{ color: "rgba(56,189,248,0.7)" }}>
             VIEW ALL →
           </a>
         </div>
 
         {loading ? (
-          <div className="text-center py-8 text-xs" style={{ color: "rgba(14,165,233,0.4)" }}>
+          <div className="text-center py-8 text-xs" style={{ color: "rgba(56,189,248,0.4)" }}>
             LOADING EVENT STREAM...
           </div>
         ) : events.length === 0 ? (
           <div className="text-center py-8">
-            <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(14,165,233,0.3)" }}>
+            <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(56,189,248,0.3)" }}>
               NO EVENTS YET
             </div>
             <p className="text-xs" style={{ color: "rgba(148,163,184,0.5)" }}>
@@ -148,7 +148,7 @@ export function DashboardHome() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.03 }}
                 className="flex items-start gap-3 p-2 rounded text-xs"
-                style={{ background: "rgba(14,165,233,0.03)", border: "1px solid rgba(14,165,233,0.07)" }}
+                style={{ background: "rgba(56,189,248,0.03)", border: "1px solid rgba(56,189,248,0.07)" }}
               >
                 <div
                   className="w-1 h-full min-h-[1em] rounded-full flex-shrink-0 mt-0.5"
@@ -160,7 +160,7 @@ export function DashboardHome() {
                       {event.title ?? "Event"}
                     </span>
                     <span style={{ color: "rgba(148,163,184,0.4)" }}>·</span>
-                    <span style={{ color: "rgba(14,165,233,0.6)" }}>{event.routeSlug}</span>
+                    <span style={{ color: "rgba(56,189,248,0.6)" }}>{event.routeSlug}</span>
                     <span className="ml-auto flex-shrink-0" style={{ color: "rgba(148,163,184,0.4)" }}>
                       {timeAgo(event.timestamp)}
                     </span>
@@ -197,7 +197,7 @@ export function DashboardHome() {
 function StatChip({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="text-center">
-      <div className="text-[10px] tracking-widest uppercase mb-0.5" style={{ color: "rgba(14,165,233,0.5)" }}>{label}</div>
+      <div className="text-[10px] tracking-widest uppercase mb-0.5" style={{ color: "rgba(56,189,248,0.5)" }}>{label}</div>
       <div className="text-lg font-bold" style={{ color: "#38bdf8" }}>{value}</div>
     </div>
   );

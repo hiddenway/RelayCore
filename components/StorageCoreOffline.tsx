@@ -117,13 +117,13 @@ export function StorageCoreOffline() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
           className="glass-card rounded-lg p-6 text-left"
-          style={{ border: "1px solid rgba(14,165,233,0.15)" }}
+          style={{ border: "1px solid rgba(56,189,248,0.15)" }}
         >
           <div className="flex items-center gap-2 mb-4">
-            <div className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(14,165,233,0.7)" }}>
+            <div className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(56,189,248,0.7)" }}>
               INITIALIZATION PROTOCOL
             </div>
-            <div className="flex-1 h-px" style={{ background: "rgba(14,165,233,0.1)" }} />
+            <div className="flex-1 h-px" style={{ background: "rgba(56,189,248,0.1)" }} />
           </div>
 
           <div className="space-y-4 text-sm" style={{ color: "#94a3b8" }}>
@@ -140,7 +140,7 @@ export function StorageCoreOffline() {
                   <code
                     key={v}
                     className="block text-xs px-3 py-1.5 rounded"
-                    style={{ background: "rgba(14,165,233,0.05)", border: "1px solid rgba(14,165,233,0.1)", color: "#38bdf8" }}
+                    style={{ background: "rgba(56,189,248,0.05)", border: "1px solid rgba(56,189,248,0.1)", color: "#38bdf8" }}
                   >
                     {v}
                   </code>
@@ -162,7 +162,7 @@ export function StorageCoreOffline() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
           className="mt-6 text-xs tracking-widest uppercase"
-          style={{ color: "rgba(14,165,233,0.3)" }}
+          style={{ color: "rgba(56,189,248,0.3)" }}
         >
           RELAY CORE v1.0 · AWAITING STORAGE CORE CONNECTION
         </motion.p>
@@ -177,8 +177,8 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
       <div
         className="flex-shrink-0 w-6 h-6 rounded flex items-center justify-center text-xs font-bold mt-0.5"
         style={{
-          background: "rgba(14,165,233,0.1)",
-          border: "1px solid rgba(14,165,233,0.3)",
+          background: "rgba(56,189,248,0.1)",
+          border: "1px solid rgba(56,189,248,0.3)",
           color: "#38bdf8",
         }}
       >
