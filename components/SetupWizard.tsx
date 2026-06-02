@@ -162,74 +162,83 @@ export function SetupWizard() {
             className="glass-card rounded-lg p-6"
             style={{ border: "1px solid rgba(14,165,233,0.15)" }}
           >
-            {step === "token" && (
-              <StepSection
-                title="Enter Setup Password"
-                desc="Enter the SETUP_PASSWORD value you set in your Vercel environment variables. This is a one-time password to protect the setup process."
-              >
-                <Field label="SETUP PASSWORD" type="password" value={data.setupToken ?? ""} onChange={(v) => update("setupToken", v)} placeholder="Enter your setup password" />
-                <Btn loading={loading} onClick={async () => {
-                  if (!data.setupToken) { setError("Setup password is required"); return; }
-                  setLoading(true);
-                  setError("");
-                  try {
-                    const res = await fetch("/api/setup/verify-token", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ token: data.setupToken }),
-                    });
-                    const json = await res.json();
-                    if (!res.ok) { setError(json.error ?? "Invalid setup password"); return; }
-                    nextStep();
-                  } catch {
-                    setError("Network error");
-                  } finally {
-                    setLoading(false);
-                  }
-                }}>CONTINUE →</Btn>
-              </StepSection>
-            )}
-
-            {step === "admin" && (
-              <StepSection title="Create Admin Account" desc="This will be your panel login credentials.">
-                <Field label="USERNAME" value={data.username ?? ""} onChange={(v) => update("username", v)} placeholder="admin" />
-                <Field label="PASSWORD" type="password" value={data.password ?? ""} onChange={(v) => update("password", v)} placeholder="Min 8 characters" />
-                <Btn loading={loading} onClick={() => {
-                  if (!data.username || data.username.length < 3) { setError("Username must be at least 3 characters"); return; }
-                  if (!data.password || data.password.length < 8) { setError("Password must be at least 8 characters"); return; }
+            {step === "token" && (() => {
+              const handle = async () => {
+                if (!data.setupToken) { setError("Setup password is required"); return; }
+                setLoading(true); setError("");
+                try {
+                  const res = await fetch("/api/setup/verify-token", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token: data.setupToken }),
+                  });
+                  const json = await res.json();
+                  if (!res.ok) { setError(json.error ?? "Invalid setup password"); return; }
                   nextStep();
-                }}>CONTINUE →</Btn>
-              </StepSection>
-            )}
+                } catch { setError("Network error"); }
+                finally { setLoading(false); }
+              };
+              return (
+                <StepSection
+                  title="Enter Setup Password"
+                  desc="Enter the SETUP_PASSWORD value you set in your Vercel environment variables. This is a one-time password to protect the setup process."
+                  onSubmit={handle}
+                >
+                  <Field label="SETUP PASSWORD" type="password" value={data.setupToken ?? ""} onChange={(v) => update("setupToken", v)} placeholder="Enter your setup password" autoFocus />
+                  <Btn loading={loading} onClick={handle}>CONTINUE →</Btn>
+                </StepSection>
+              );
+            })()}
 
-            {step === "bot" && (
-              <StepSection title="Connect Telegram Bot" desc="Create a bot via @BotFather and paste the token here.">
-                <Field label="BOT NAME" value={data.botName ?? ""} onChange={(v) => update("botName", v)} placeholder="My Alert Bot" />
-                <Field label="BOT TOKEN" type="password" value={data.botToken ?? ""} onChange={(v) => update("botToken", v)} placeholder="123456:ABCdef..." />
-                <Field label="CHAT ID" value={data.botChatId ?? ""} onChange={(v) => update("botChatId", v)} placeholder="-1001234567890" />
-                <Field label="TOPIC / THREAD ID (optional, for forum groups)" value={data.botThreadId ?? ""} onChange={(v) => update("botThreadId", v)} placeholder="2" />
-                <p className="text-xs mt-1" style={{ color: "rgba(148,163,184,0.6)" }}>
-                  Regular chat: just Chat ID. Forum group: Chat ID + Topic ID from t.me/c/GROUP/<strong>TOPIC</strong>
-                </p>
-                <Btn loading={loading} onClick={() => {
-                  if (!data.botName || !data.botToken || !data.botChatId) { setError("All bot fields are required"); return; }
-                  nextStep();
-                }}>CONTINUE →</Btn>
-              </StepSection>
-            )}
+            {step === "admin" && (() => {
+              const handle = () => {
+                if (!data.username || data.username.length < 3) { setError("Username must be at least 3 characters"); return; }
+                if (!data.password || data.password.length < 8) { setError("Password must be at least 8 characters"); return; }
+                nextStep();
+              };
+              return (
+                <StepSection title="Create Admin Account" desc="This will be your panel login credentials." onSubmit={handle}>
+                  <Field label="USERNAME" value={data.username ?? ""} onChange={(v) => update("username", v)} placeholder="admin" autoFocus />
+                  <Field label="PASSWORD" type="password" value={data.password ?? ""} onChange={(v) => update("password", v)} placeholder="Min 8 characters" />
+                  <Btn loading={loading} onClick={handle}>CONTINUE →</Btn>
+                </StepSection>
+              );
+            })()}
 
-            {step === "route" && (
-              <StepSection title="Create First Route" desc="Routes are endpoints that receive events and relay them to your bots.">
-                <Field label="ROUTE NAME" value={data.routeName ?? ""} onChange={(v) => update("routeName", v)} placeholder="My App Alerts" />
-                <p className="text-xs mt-1" style={{ color: "rgba(148,163,184,0.6)" }}>
-                  Slug will be auto-generated. Endpoint: <code className="text-sky-400">/api/r/my-app-alerts</code>
-                </p>
-                <Btn loading={loading} onClick={async () => {
-                  if (!data.routeName) { setError("Route name is required"); return; }
-                  await handleSubmitSetup();
-                }}>CREATE &amp; FINALIZE →</Btn>
-              </StepSection>
-            )}
+            {step === "bot" && (() => {
+              const handle = () => {
+                if (!data.botName || !data.botToken || !data.botChatId) { setError("All bot fields are required"); return; }
+                nextStep();
+              };
+              return (
+                <StepSection title="Connect Telegram Bot" desc="Create a bot via @BotFather and paste the token here." onSubmit={handle}>
+                  <Field label="BOT NAME" value={data.botName ?? ""} onChange={(v) => update("botName", v)} placeholder="My Alert Bot" autoFocus />
+                  <Field label="BOT TOKEN" type="password" value={data.botToken ?? ""} onChange={(v) => update("botToken", v)} placeholder="123456:ABCdef..." />
+                  <Field label="CHAT ID" value={data.botChatId ?? ""} onChange={(v) => update("botChatId", v)} placeholder="-1001234567890" />
+                  <Field label="TOPIC / THREAD ID (optional, for forum groups)" value={data.botThreadId ?? ""} onChange={(v) => update("botThreadId", v)} placeholder="2" />
+                  <p className="text-xs mt-1" style={{ color: "rgba(148,163,184,0.6)" }}>
+                    Regular chat: just Chat ID. Forum group: Chat ID + Topic ID from t.me/c/GROUP/<strong>TOPIC</strong>
+                  </p>
+                  <Btn loading={loading} onClick={handle}>CONTINUE →</Btn>
+                </StepSection>
+              );
+            })()}
+
+            {step === "route" && (() => {
+              const handle = async () => {
+                if (!data.routeName) { setError("Route name is required"); return; }
+                await handleSubmitSetup();
+              };
+              return (
+                <StepSection title="Create First Route" desc="Routes are endpoints that receive events and relay them to your bots." onSubmit={handle}>
+                  <Field label="ROUTE NAME" value={data.routeName ?? ""} onChange={(v) => update("routeName", v)} placeholder="My App Alerts" autoFocus />
+                  <p className="text-xs mt-1" style={{ color: "rgba(148,163,184,0.6)" }}>
+                    Slug will be auto-generated. Endpoint: <code className="text-sky-400">/api/r/my-app-alerts</code>
+                  </p>
+                  <Btn loading={loading} onClick={handle}>CREATE &amp; FINALIZE →</Btn>
+                </StepSection>
+              );
+            })()}
 
             {step === "test" && result && (
               <StepSection title="Send Test Event" desc="Let's verify everything works end-to-end.">
@@ -299,18 +308,20 @@ export function SetupWizard() {
   );
 }
 
-function StepSection({ title, desc, children }: { title: string; desc: string; children: React.ReactNode }) {
+function StepSection({ title, desc, children, onSubmit }: {
+  title: string; desc: string; children: React.ReactNode; onSubmit?: () => void;
+}) {
   return (
-    <div>
+    <form onSubmit={(e) => { e.preventDefault(); onSubmit?.(); }}>
       <h2 className="text-base font-bold mb-1 tracking-wide" style={{ color: "#e2e8f0" }}>{title}</h2>
       {desc && <p className="text-xs mb-5" style={{ color: "rgba(148,163,184,0.7)" }}>{desc}</p>}
       <div className="space-y-3">{children}</div>
-    </div>
+    </form>
   );
 }
 
-function Field({ label, value, onChange, type = "text", placeholder }: {
-  label: string; value: string; onChange: (v: string) => void; type?: string; placeholder?: string;
+function Field({ label, value, onChange, type = "text", placeholder, autoFocus }: {
+  label: string; value: string; onChange: (v: string) => void; type?: string; placeholder?: string; autoFocus?: boolean;
 }) {
   return (
     <div>
@@ -322,6 +333,7 @@ function Field({ label, value, onChange, type = "text", placeholder }: {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
+        autoFocus={autoFocus}
         className="hud-input w-full px-3 py-2 text-sm rounded"
       />
     </div>
@@ -331,7 +343,8 @@ function Field({ label, value, onChange, type = "text", placeholder }: {
 function Btn({ children, onClick, loading }: { children: React.ReactNode; onClick: () => void; loading: boolean }) {
   return (
     <button
-      onClick={onClick}
+      type="submit"
+      onClick={(e) => { e.preventDefault(); onClick(); }}
       disabled={loading}
       className="hud-btn hud-btn-primary w-full py-2.5 px-4 text-sm font-bold tracking-wider mt-2 rounded"
     >
