@@ -121,8 +121,8 @@ export async function deleteRoute(slug: string): Promise<void> {
 }
 
 // Event logs
-const MAX_RECENT_EVENTS = 100;
-const MAX_ROUTE_EVENTS = 50;
+const MAX_RECENT_EVENTS = 10;
+const MAX_ROUTE_EVENTS = 10;
 
 export async function saveEvent(event: EventLog): Promise<void> {
   const r = getRedis();
@@ -196,4 +196,49 @@ export async function getRouteStats(slug: string): Promise<Stats> {
     success: parseInt(raw.success ?? "0"),
     failed: parseInt(raw.failed ?? "0"),
   };
+}
+
+// ─── Login rate limiting (stored in Redis — works across serverless instances) ───
+
+const LOGIN_MAX_ATTEMPTS = 5;
+const LOGIN_BLOCK_SECONDS = 15 * 60; // 15 min block
+const LOGIN_WINDOW_SECONDS = 10 * 60; // attempt counter TTL
+
+export async function checkLoginRateLimit(ip: string): Promise<{
+  blocked: boolean;
+  remaining: number;
+  retryAfter?: number;
+}> {
+  const r = getRedis();
+  const ttl = await r.ttl(`login:blocked:${ip}`);
+  if (ttl > 0) return { blocked: true, remaining: 0, retryAfter: ttl };
+
+  const attempts = (await r.get<number>(`login:attempts:${ip}`)) ?? 0;
+  return { blocked: false, remaining: Math.max(0, LOGIN_MAX_ATTEMPTS - attempts) };
+}
+
+export async function recordFailedLogin(ip: string): Promise<{
+  blocked: boolean;
+  remaining: number;
+  retryAfter?: number;
+}> {
+  const r = getRedis();
+  const attempts = await r.incr(`login:attempts:${ip}`);
+  await r.expire(`login:attempts:${ip}`, LOGIN_WINDOW_SECONDS);
+
+  if (attempts >= LOGIN_MAX_ATTEMPTS) {
+    await r.set(`login:blocked:${ip}`, 1, { ex: LOGIN_BLOCK_SECONDS });
+    await r.del(`login:attempts:${ip}`);
+    return { blocked: true, remaining: 0, retryAfter: LOGIN_BLOCK_SECONDS };
+  }
+
+  return { blocked: false, remaining: LOGIN_MAX_ATTEMPTS - attempts };
+}
+
+export async function clearLoginAttempts(ip: string): Promise<void> {
+  const r = getRedis();
+  await Promise.all([
+    r.del(`login:attempts:${ip}`),
+    r.del(`login:blocked:${ip}`),
+  ]);
 }
