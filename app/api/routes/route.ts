@@ -15,6 +15,7 @@ const targetSchema = z.object({
 const createSchema = z.object({
   name: z.string().min(1).max(64),
   description: z.string().max(256).optional(),
+  messageTemplate: z.string().max(4096).optional(),
   targets: z.array(targetSchema).min(1),
 });
 
@@ -49,6 +50,7 @@ export async function POST(request: NextRequest) {
     slug,
     name: body.name,
     description: body.description,
+    messageTemplate: body.messageTemplate || undefined,
     apiKeyEncrypted,
     targets: body.targets,
     enabled: true,

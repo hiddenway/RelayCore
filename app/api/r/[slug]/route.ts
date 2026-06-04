@@ -69,7 +69,7 @@ export async function POST(
     timestamp: new Date().toISOString(),
   };
 
-  const text = formatMessage(route.name, body);
+  const text = formatMessage(route.name, body, route.messageTemplate);
   const deliveries: DeliveryResult[] = [];
 
   for (const target of route.targets) {

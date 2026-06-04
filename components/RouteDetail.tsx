@@ -20,6 +20,9 @@ export function RouteDetail({ slug }: { slug: string }) {
   const [regenerating, setRegenerating] = useState(false);
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<{ ok: boolean; message: string } | null>(null);
+  const [template, setTemplate] = useState<string>("");
+  const [savingTemplate, setSavingTemplate] = useState(false);
+  const [templateSaved, setTemplateSaved] = useState(false);
 
   const load = useCallback(async () => {
     const [routeRes, logsRes] = await Promise.all([
@@ -29,6 +32,7 @@ export function RouteDetail({ slug }: { slug: string }) {
     if (routeRes.ok) {
       const d = await routeRes.json();
       setRoute(d.route);
+      setTemplate(d.route?.messageTemplate ?? "");
     }
     if (logsRes.ok) {
       const d = await logsRes.json();
@@ -92,6 +96,20 @@ export function RouteDetail({ slug }: { slug: string }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ enabled: !route.enabled }),
     });
+    await load();
+  }
+
+  async function saveTemplate() {
+    setSavingTemplate(true);
+    setTemplateSaved(false);
+    await fetch(`/api/routes/${slug}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messageTemplate: template || null }),
+    });
+    setSavingTemplate(false);
+    setTemplateSaved(true);
+    setTimeout(() => setTemplateSaved(false), 2500);
     await load();
   }
 
@@ -252,6 +270,76 @@ export function RouteDetail({ slug }: { slug: string }) {
               </div>
             </div>
           ))}
+        </div>
+      </HudCard>
+
+      {/* Message Template */}
+      <HudCard corners label="MESSAGE TEMPLATE">
+        <p className="text-xs mb-3" style={{ color: "rgba(148,163,184,0.6)" }}>
+          Transform incoming events into a custom message before sending to Telegram.
+          Leave empty to use the default format.
+          <br />
+          HTML tags are supported. Supports <code style={{ color: "#7dd3fc" }}>{"{{title}}"}</code>,{" "}
+          <code style={{ color: "#7dd3fc" }}>{"{{message}}"}</code>,{" "}
+          <code style={{ color: "#7dd3fc" }}>{"{{level}}"}</code>,{" "}
+          <code style={{ color: "#7dd3fc" }}>{"{{payload}}"}</code>,{" "}
+          <code style={{ color: "#7dd3fc" }}>{"{{payload.field}}"}</code>
+        </p>
+
+        <textarea
+          value={template}
+          onChange={(e) => { setTemplate(e.target.value); setTemplateSaved(false); }}
+          rows={6}
+          placeholder={`Example:\n🚀 New order from <b>{{payload.user_name}}</b>\nAmount: <code>{{payload.amount}} USD</code>\nProduct: {{payload.product_name}}`}
+          className="hud-input w-full px-3 py-2 text-xs rounded font-mono resize-y"
+          style={{ minHeight: "120px" }}
+        />
+
+        <div className="flex items-center justify-between mt-3">
+          <div className="text-xs" style={{ color: "rgba(148,163,184,0.4)" }}>
+            {template ? `${template.length} chars` : "Default format will be used"}
+          </div>
+          <div className="flex items-center gap-2">
+            {template && (
+              <button
+                onClick={() => { setTemplate(""); setTemplateSaved(false); }}
+                className="hud-btn px-3 py-1.5 text-xs rounded"
+                style={{ color: "rgba(148,163,184,0.6)" }}
+              >
+                CLEAR
+              </button>
+            )}
+            <button
+              onClick={saveTemplate}
+              disabled={savingTemplate}
+              className="hud-btn hud-btn-primary px-4 py-1.5 text-xs font-bold rounded"
+            >
+              {savingTemplate ? "SAVING..." : templateSaved ? "✓ SAVED" : "SAVE TEMPLATE"}
+            </button>
+          </div>
+        </div>
+
+        {/* Preview of available variables */}
+        <div
+          className="mt-3 p-3 rounded text-xs"
+          style={{ background: "rgba(56,189,248,0.04)", border: "1px solid rgba(56,189,248,0.1)" }}
+        >
+          <div className="font-bold mb-2" style={{ color: "rgba(56,189,248,0.7)" }}>AVAILABLE PLACEHOLDERS</div>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-1" style={{ color: "rgba(148,163,184,0.7)" }}>
+            {[
+              ["{{title}}", "event title"],
+              ["{{message}}", "event message"],
+              ["{{level}}", "info/success/warning/error"],
+              ["{{payload}}", "full payload as JSON"],
+              ["{{payload.key}}", "top-level payload field"],
+              ["{{payload.a.b}}", "nested payload field"],
+            ].map(([ph, desc]) => (
+              <div key={ph} className="flex items-baseline gap-2">
+                <code style={{ color: "#7dd3fc", flexShrink: 0 }}>{ph}</code>
+                <span style={{ opacity: 0.6 }}>{desc}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </HudCard>
 

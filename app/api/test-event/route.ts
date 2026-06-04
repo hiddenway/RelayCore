@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     level: "info" as const,
   };
 
-  const text = formatMessage(route.name, testPayload);
+  const text = formatMessage(route.name, testPayload, route.messageTemplate);
   const deliveries = [];
 
   for (const target of route.targets) {

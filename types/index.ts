@@ -26,6 +26,7 @@ export interface Route {
   description?: string;
   apiKeyEncrypted: string;
   targets: RouteTarget[];
+  messageTemplate?: string;
   enabled: boolean;
   createdAt: string;
   updatedAt: string;

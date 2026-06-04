@@ -10,7 +10,53 @@ const LEVEL_EMOJI: Record<string, string> = {
   error: "❌",
 };
 
-export function formatMessage(routeName: string, event: RelayEventInput): string {
+/**
+ * Apply a {{placeholder}} template to an event.
+ *
+ * Supported placeholders:
+ *   {{title}}            — event title
+ *   {{message}}          — event message
+ *   {{level}}            — info | success | warning | error
+ *   {{payload}}          — full payload as pretty JSON
+ *   {{payload.key}}      — top-level payload field
+ *   {{payload.a.b.c}}    — deeply nested payload field
+ */
+export function applyTemplate(template: string, event: RelayEventInput): string {
+  return template.replace(/\{\{\s*([^}]+?)\s*\}\}/g, (_, path: string) => {
+    const parts = path.trim().split(".");
+
+    if (parts[0] === "payload") {
+      if (parts.length === 1) {
+        if (event.payload === undefined || event.payload === null) return "";
+        return typeof event.payload === "string"
+          ? event.payload
+          : JSON.stringify(event.payload, null, 2);
+      }
+      // nested access: payload.a.b.c
+      let val: unknown = event.payload;
+      for (const part of parts.slice(1)) {
+        if (val !== null && typeof val === "object") {
+          val = (val as Record<string, unknown>)[part];
+        } else {
+          return "";
+        }
+      }
+      return val !== undefined && val !== null ? String(val) : "";
+    }
+
+    // top-level event fields
+    const top = (event as Record<string, unknown>)[parts[0]];
+    return top !== undefined && top !== null ? String(top) : "";
+  });
+}
+
+export function formatMessage(routeName: string, event: RelayEventInput, template?: string): string {
+  // If route has a custom template — use it directly (HTML allowed)
+  if (template && template.trim()) {
+    return applyTemplate(template, event);
+  }
+
+  // Default format
   const emoji = LEVEL_EMOJI[event.level ?? "info"];
   const level = (event.level ?? "info").toUpperCase();
   const timestamp = new Date().toISOString().replace("T", " ").substring(0, 19) + " UTC";
@@ -20,7 +66,6 @@ export function formatMessage(routeName: string, event: RelayEventInput): string
   text += `<code>Time:  ${timestamp}</code>\n`;
 
   if (event.message) {
-    // message is passed as-is — HTML tags are rendered by Telegram (parse_mode: HTML)
     text += `\n${event.message}\n`;
   }
 

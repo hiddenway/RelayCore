@@ -13,6 +13,7 @@ const targetSchema = z.object({
 const updateSchema = z.object({
   name: z.string().min(1).max(64).optional(),
   description: z.string().max(256).optional(),
+  messageTemplate: z.string().max(4096).optional().nullable(),
   targets: z.array(targetSchema).min(1).optional(),
   enabled: z.boolean().optional(),
 });
@@ -50,7 +51,12 @@ export async function PATCH(
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const updated = { ...route, ...body, updatedAt: new Date().toISOString() };
+  const updated = {
+    ...route,
+    ...body,
+    messageTemplate: body.messageTemplate === null ? undefined : (body.messageTemplate ?? route.messageTemplate),
+    updatedAt: new Date().toISOString(),
+  };
   await saveRoute(updated);
 
   const { apiKeyEncrypted: _, ...safe } = updated;
