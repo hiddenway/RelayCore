@@ -4,6 +4,8 @@
 
 Send events from your apps → receive them as Telegram messages. One API endpoint, multiple bots, multiple chats — all configured through a futuristic web dashboard.
 
+![RelayCore Dashboard](./docs/screenshot.png)
+
 ---
 
 ## What is this?
