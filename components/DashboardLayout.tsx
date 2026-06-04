@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { GridBackground } from "./hud/GridBackground";
+import { PushNotificationButton } from "./PushNotificationButton";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "CORE STATUS", icon: "◈" },
@@ -104,7 +105,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Footer */}
-        <div style={{ borderTop: "1px solid rgba(56,189,248,0.1)" }} className="p-4">
+        <div style={{ borderTop: "1px solid rgba(56,189,248,0.1)" }} className="p-4 space-y-2">
+          <PushNotificationButton />
           <button
             onClick={handleLogout}
             disabled={loggingOut}

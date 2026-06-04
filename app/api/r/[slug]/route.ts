@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getRoute, getBot, saveEvent, incrementStats } from "@/lib/redis";
 import { verifyApiKey } from "@/lib/crypto";
 import { sendTelegramMessage, formatMessage } from "@/lib/telegram";
+import { sendPushNotifications, isWebPushConfigured } from "@/lib/push";
 import type { EventLog, DeliveryResult } from "@/types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -88,6 +89,9 @@ export async function POST(
   await Promise.all([
     saveEvent(event),
     incrementStats(slug, anySuccess),
+    isWebPushConfigured()
+      ? sendPushNotifications(route.name, slug, body)
+      : Promise.resolve(),
   ]);
 
   return NextResponse.json({
